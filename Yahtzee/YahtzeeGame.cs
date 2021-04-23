@@ -13,39 +13,18 @@ namespace Yahtzee
 {
     public partial class frmYahtzeeGame : Form
     {
-        List<Die> dice = new List<Die>();
-        public PictureBox[] dicePics = new PictureBox[5];
+        List<Die> dice = new List<Die>(5);
+        //public PictureBox[] dicePics = new PictureBox[5];
         int currentRoll;
-        public static string[] stringImageLocations = System.IO.Directory.GetFiles("..\\..\\images", "*.jpg", SearchOption.TopDirectoryOnly);
+        //public static string[] stringImageLocations = System.IO.Directory.GetFiles("..\\..\\images", "*.jpg", SearchOption.TopDirectoryOnly);
+        List<Button> buttons = new List<Button>(5);
+        //public Image[] diceImages = new Image[stringImageLocations.Length];
+        public static Random rand = new Random();
 
-        public Image[] diceImages = new Image[stringImageLocations.Length];
-            
 
-    public frmYahtzeeGame()
+        public frmYahtzeeGame()
         {
-            string path = "";
-            string searchPattern = "";
-            for (int i = 0; i < stringImageLocations.Length; i++)
-            {
-                diceImages[i] = Image.FromFile(stringImageLocations[i]);
-            }
-            dicePics[0] = pbxDie1;
-            dicePics[1] = pbxDie2;
-            dicePics[2] = pbxDie3;
-            dicePics[3] = pbxDie4;
-            dicePics[4] = pbxDie5;
-           // pbxDie1.Tag.Equals(1);
-            for (int i = 0; i <= 4; i++)
-            {        //Add image and assign to die1, die2...
-                Die d = new Die();
-                d.DieId = i+1;
-                d.Roll();
-                d.Hold = false;
-                currentRoll = d.DotCount;
-                //dicePics[i].Image = diceImages[currentRoll-1];
-                pbxDie1.Image = diceImages[3];
-
-            }
+           
             InitializeComponent();
         }
 
@@ -55,8 +34,9 @@ namespace Yahtzee
         {
             this.Close();
         }
-        private void SetImage(int id)
+        private void SetDiceImage(int id)
         {
+            /*
             if (Convert.ToInt32(pbxDie1.Tag) == 1)
             {
                 pbxDie1.Image = Yahtzee.Properties.Resources.dice1;
@@ -77,7 +57,91 @@ namespace Yahtzee
             {
                 pbxDie5.Image = Yahtzee.Properties.Resources.dice5;
             }
+            */
             
+        }
+
+        private void frmYahtzeeGame_Load(object sender, EventArgs e)
+        {
+            Die die = new Die();
+            buttons.Add(btnDie1);
+            buttons.Add(btnDie2);
+            buttons.Add(btnDie3);
+            buttons.Add(btnDie4);
+            buttons.Add(btnDie5);
+
+            for (int id = 1; id < 6; id++)
+            {
+                die = new Die(id, id, false);
+                die.Roll();
+                dice.Add(die);
+                buttons.ElementAt(die.DieId-1).Text = (die.DotCount).ToString();
+              
+            }
+
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            if (btnNext.Text == "Play")
+            {
+                //change btn text
+                btnNext.Text = "Next Round";
+            }
+
+            //Fill dice
+            RollDice();
+    
+        }
+
+        private void RollDice()
+        {
+
+            foreach (Die d in dice)
+            {
+                d.Roll();
+                buttons.ElementAt(d.DieId-1).Text = (d.DotCount).ToString();
+            }
+        }
+
+        private void chkDie1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(dice.ElementAt(0).Hold == false)
+                dice.ElementAt(0).Hold = true;
+            else if(dice.ElementAt(0).Hold == true)
+                dice.ElementAt(0).Hold = false;
+        }
+
+        private void chkDie2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dice.ElementAt(1).Hold == false)
+                dice.ElementAt(1).Hold = true;
+            else if (dice.ElementAt(1).Hold == true)
+                dice.ElementAt(1).Hold = false;
+        }
+
+        private void chkDie3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dice.ElementAt(2).Hold == false)
+                dice.ElementAt(2).Hold = true;
+            else if (dice.ElementAt(2).Hold == true)
+                dice.ElementAt(2).Hold = false;
+        }
+
+        private void chkDie4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dice.ElementAt(3).Hold == false)
+                dice.ElementAt(3).Hold = true;
+            else if (dice.ElementAt(3).Hold == true)
+                dice.ElementAt(3).Hold = false;
+        }
+
+        private void chkDie5_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dice.ElementAt(4).Hold == false)
+                dice.ElementAt(4).Hold = true;
+            else if (dice.ElementAt(4).Hold == true)
+                dice.ElementAt(4).Hold = false;
         }
     }
 }

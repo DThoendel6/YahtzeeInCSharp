@@ -11,7 +11,7 @@ namespace Yahtzee
         public int DieId { get; set; }
         public int DotCount { get; set; }
         public bool Hold { get; set; }
-
+        
         // Constructors
         public Die() { }
 
@@ -22,13 +22,20 @@ namespace Yahtzee
             Hold = hold;
             id++;
         }
-
+        
         public void Roll()
         {
-            int newCount;
-            Random rand = new Random();
-            newCount = rand.Next(1, 6);
-            DotCount = newCount;
+            if (Hold)
+            {
+                //does not roll a new number
+            }
+            else
+            {
+                int newCount;
+                // Random rand = new Random();
+                newCount = frmYahtzeeGame.rand.Next(1, 7);
+                DotCount = newCount;
+            }
         }
 
     }
