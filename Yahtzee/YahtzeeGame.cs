@@ -15,11 +15,13 @@ namespace Yahtzee
     {
         List<Die> dice = new List<Die>(5);
         //public PictureBox[] dicePics = new PictureBox[5];
-        int currentRoll;
         //public static string[] stringImageLocations = System.IO.Directory.GetFiles("..\\..\\images", "*.jpg", SearchOption.TopDirectoryOnly);
         List<Button> buttons = new List<Button>(5);
         //public Image[] diceImages = new Image[stringImageLocations.Length];
         public static Random rand = new Random();
+        int rollCounter = 0;
+        [System.ComponentModel.Browsable(true)]
+        public event System.Windows.Forms.MouseEventHandler MouseClick;
 
 
         public frmYahtzeeGame()
@@ -34,32 +36,6 @@ namespace Yahtzee
         {
             this.Close();
         }
-        private void SetDiceImage(int id)
-        {
-            /*
-            if (Convert.ToInt32(pbxDie1.Tag) == 1)
-            {
-                pbxDie1.Image = Yahtzee.Properties.Resources.dice1;
-            }
-            else if(Convert.ToInt32(pbxDie2.Tag) == id)
-            {
-                pbxDie2.Image = Yahtzee.Properties.Resources.dice2;
-            }
-            else if (Convert.ToInt32(pbxDie3.Tag) == id)
-            {
-                pbxDie3.Image = Yahtzee.Properties.Resources.dice3;
-            }
-            else if (Convert.ToInt32(pbxDie4.Tag) == id)
-            {
-                pbxDie4.Image = Yahtzee.Properties.Resources.dice4;
-            }
-            else if (Convert.ToInt32(pbxDie5.Tag) == id)
-            {
-                pbxDie5.Image = Yahtzee.Properties.Resources.dice5;
-            }
-            */
-            
-        }
 
         private void frmYahtzeeGame_Load(object sender, EventArgs e)
         {
@@ -69,6 +45,7 @@ namespace Yahtzee
             buttons.Add(btnDie3);
             buttons.Add(btnDie4);
             buttons.Add(btnDie5);
+            btnRollAgain.Enabled = false;
 
             for (int id = 1; id < 6; id++)
             {
@@ -88,7 +65,9 @@ namespace Yahtzee
                 //change btn text
                 btnNext.Text = "Next Round";
             }
-
+            rollCounter = 1;
+            btnRollAgain.Enabled = true;
+            btnNext.Enabled = false;
             //Fill dice
             RollDice();
     
@@ -96,7 +75,6 @@ namespace Yahtzee
 
         private void RollDice()
         {
-
             foreach (Die d in dice)
             {
                 d.Roll();
@@ -142,6 +120,198 @@ namespace Yahtzee
                 dice.ElementAt(4).Hold = true;
             else if (dice.ElementAt(4).Hold == true)
                 dice.ElementAt(4).Hold = false;
+        }
+
+        private void btnRollAgain_Click(object sender, EventArgs e)
+        {
+            if (rollCounter < 4)
+            {
+                rollCounter++;
+                RollDice();
+                if(rollCounter == 3)
+                {
+                    btnRollAgain.Enabled = false;
+                    btnNext.Enabled = true;
+                }
+            }
+        }
+
+        private void txtOnes_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("ones");
+            txtOnes.Text = score.ToString();
+            txtOnes.Enabled = false;
+        }
+
+        private int calcScore(string type)
+        {
+            int score = 0;
+            int searchCriteria;
+            int[] numbers = new int[5];
+            int i = 0;
+            foreach(Die d in dice)
+            {
+                if(type == "ones")
+                {
+                    if (d.DotCount == 1)
+                    {
+                        score += 1;
+                    }
+                }else if(type == "twos")
+                {
+                    if (d.DotCount == 2)
+                    {
+                        score += 2;
+                    }
+                }else if (type == "threes")
+                {
+                    if (d.DotCount == 3)
+                    {
+                        score += 3;
+                    }
+                }else if (type == "fours")
+                {
+                    if (d.DotCount == 4)
+                    {
+                        score += 4;
+                    }
+                }else if (type == "fives")
+                {
+                    if (d.DotCount == 5)
+                    {
+                        score += 5;
+                    }
+                }else if (type == "sixs")
+                {
+                    if (d.DotCount == 6)
+                    {
+                        score += 6;
+                    }
+                }else if (type == "chance")
+                {
+                    score += d.DotCount;                   
+                }
+                numbers[i] = d.DotCount;
+                i++;
+            }
+            //search through array to find repeating numbers. Factor score for variable answers
+            Array.Sort(numbers);
+            if (score == 0)
+            {
+                for (int n = 0; n < 5; n++)
+                {
+                    searchCriteria = numbers[n];
+                    try
+                    {
+                        if (numbers[n + 1] == searchCriteria)
+                        {   //if the first 2 numbers in the sorted array are equal, it will check the 3rd number
+                         //if 3 numbers are equal to each other, that fits the criteria for the rest
+                         //of the score boxes until 4-of-a-kind or yahtzee.
+
+                            if (numbers[n + 2] == searchCriteria)
+                            {   //if you've made it this far, you found your 3-of-a-kind!
+
+                                if (type == "threeOfAKind")
+                                {
+                                    foreach (Die d in dice)
+                                    {
+                                        score += d.DotCount;
+                                    }
+                                    return score;
+                                }
+                                if (numbers[n + 3] == searchCriteria)
+                                {   //4-of-a-kind
+                                    if (type == "fourOfAKind")
+                                    {
+                                        foreach (Die d in dice)
+                                        {
+                                            score += d.DotCount;
+                                        }
+                                        return score;
+                                    }
+                                }
+                            }
+                        }
+                    }catch (IndexOutOfRangeException e)
+                    {
+
+                    }
+                }
+            }
+
+            return score;
+        }
+
+        private void txtOnes_MouseHover(object sender, EventArgs e)
+        {
+            int score;
+            score = calcScore("ones");
+            toolTip1.SetToolTip(txtOnes, score.ToString());
+        }
+
+        private void txtTwos_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("twos");
+            txtTwos.Text = score.ToString();
+            txtTwos.Enabled = false;
+        }
+
+        private void txtThrees_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("threes");
+            txtThrees.Text = score.ToString();
+            txtThrees.Enabled = false;
+        }
+
+        private void txtFours_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("fours");
+            txtFours.Text = score.ToString();
+            txtFours.Enabled = false;
+        }
+
+        private void txtFives_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("fives");
+            txtFives.Text = score.ToString();
+            txtFives.Enabled = false;
+        }
+
+        private void txtSixs_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("sixs");
+            txtSixs.Text = score.ToString();
+            txtSixs.Enabled = false;
+        }
+
+        private void txtChance_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("chance");
+            txtChance.Text = score.ToString();
+            txtChance.Enabled = false;
+        }
+
+        private void txtThreeOfKind_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("threeOfAKind");
+            txtTwos.Text = score.ToString();
+            txtTwos.Enabled = false;
+        }
+
+        private void txtFourOfKind_MouseClick(object sender, MouseEventArgs e)
+        {
+            int score;
+            score = calcScore("fourOfAKind");
+            txtThreeOfKind.Text = score.ToString();
+            txtFourOfKind.Enabled = false;
         }
     }
 }
