@@ -29,11 +29,6 @@ namespace Yahtzee
         /// </summary>
         private void InitializeComponent()
         {
-            this.pbxDie1 = new System.Windows.Forms.PictureBox();
-            this.pbxDie2 = new System.Windows.Forms.PictureBox();
-            this.pbxDie3 = new System.Windows.Forms.PictureBox();
-            this.pbxDie4 = new System.Windows.Forms.PictureBox();
-            this.pbxDie5 = new System.Windows.Forms.PictureBox();
             this.chkDie1 = new System.Windows.Forms.CheckBox();
             this.chkDie2 = new System.Windows.Forms.CheckBox();
             this.chkDie3 = new System.Windows.Forms.CheckBox();
@@ -69,62 +64,12 @@ namespace Yahtzee
             this.btnNext = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie5)).BeginInit();
+            this.btnDie1 = new System.Windows.Forms.Button();
+            this.btnDie2 = new System.Windows.Forms.Button();
+            this.btnDie3 = new System.Windows.Forms.Button();
+            this.btnDie4 = new System.Windows.Forms.Button();
+            this.btnDie5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // pbxDie1
-            // 
-            this.pbxDie1.Image = global::Yahtzee.Properties.Resources.dice1;
-            this.pbxDie1.Location = new System.Drawing.Point(61, 60);
-            this.pbxDie1.Name = "pbxDie1";
-            this.pbxDie1.Size = new System.Drawing.Size(82, 87);
-            this.pbxDie1.TabIndex = 0;
-            this.pbxDie1.TabStop = false;
-            this.pbxDie1.Tag = "1";
-            // 
-            // pbxDie2
-            // 
-            this.pbxDie2.Image = global::Yahtzee.Properties.Resources.dice6;
-            this.pbxDie2.Location = new System.Drawing.Point(226, 60);
-            this.pbxDie2.Name = "pbxDie2";
-            this.pbxDie2.Size = new System.Drawing.Size(82, 87);
-            this.pbxDie2.TabIndex = 1;
-            this.pbxDie2.TabStop = false;
-            this.pbxDie2.Tag = "2";
-            // 
-            // pbxDie3
-            // 
-            this.pbxDie3.Image = global::Yahtzee.Properties.Resources.dice1;
-            this.pbxDie3.Location = new System.Drawing.Point(141, 177);
-            this.pbxDie3.Name = "pbxDie3";
-            this.pbxDie3.Size = new System.Drawing.Size(84, 87);
-            this.pbxDie3.TabIndex = 2;
-            this.pbxDie3.TabStop = false;
-            this.pbxDie3.Tag = "3";
-            // 
-            // pbxDie4
-            // 
-            this.pbxDie4.Image = global::Yahtzee.Properties.Resources.dice1;
-            this.pbxDie4.Location = new System.Drawing.Point(61, 293);
-            this.pbxDie4.Name = "pbxDie4";
-            this.pbxDie4.Size = new System.Drawing.Size(82, 87);
-            this.pbxDie4.TabIndex = 3;
-            this.pbxDie4.TabStop = false;
-            this.pbxDie4.Tag = "4";
-            // 
-            // pbxDie5
-            // 
-            this.pbxDie5.Image = global::Yahtzee.Properties.Resources.dice1;
-            this.pbxDie5.Location = new System.Drawing.Point(226, 293);
-            this.pbxDie5.Name = "pbxDie5";
-            this.pbxDie5.Size = new System.Drawing.Size(82, 87);
-            this.pbxDie5.TabIndex = 4;
-            this.pbxDie5.TabStop = false;
-            this.pbxDie5.Tag = "5";
             // 
             // chkDie1
             // 
@@ -136,6 +81,7 @@ namespace Yahtzee
             this.chkDie1.Tag = "1";
             this.chkDie1.Text = "Hold";
             this.chkDie1.UseVisualStyleBackColor = true;
+            this.chkDie1.CheckedChanged += new System.EventHandler(this.chkDie1_CheckedChanged);
             // 
             // chkDie2
             // 
@@ -147,6 +93,7 @@ namespace Yahtzee
             this.chkDie2.Tag = "2";
             this.chkDie2.Text = "Hold";
             this.chkDie2.UseVisualStyleBackColor = true;
+            this.chkDie2.CheckedChanged += new System.EventHandler(this.chkDie2_CheckedChanged);
             // 
             // chkDie3
             // 
@@ -158,6 +105,7 @@ namespace Yahtzee
             this.chkDie3.Tag = "3";
             this.chkDie3.Text = "Hold";
             this.chkDie3.UseVisualStyleBackColor = true;
+            this.chkDie3.CheckedChanged += new System.EventHandler(this.chkDie3_CheckedChanged);
             // 
             // chkDie4
             // 
@@ -169,6 +117,7 @@ namespace Yahtzee
             this.chkDie4.Tag = "4";
             this.chkDie4.Text = "Hold";
             this.chkDie4.UseVisualStyleBackColor = true;
+            this.chkDie4.CheckedChanged += new System.EventHandler(this.chkDie4_CheckedChanged);
             // 
             // chkDie5
             // 
@@ -180,6 +129,7 @@ namespace Yahtzee
             this.chkDie5.Tag = "5";
             this.chkDie5.Text = "Hold";
             this.chkDie5.UseVisualStyleBackColor = true;
+            this.chkDie5.CheckedChanged += new System.EventHandler(this.chkDie5_CheckedChanged);
             // 
             // txtOnes
             // 
@@ -404,8 +354,9 @@ namespace Yahtzee
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 37;
-            this.btnNext.Text = "Next Round";
+            this.btnNext.Text = "Play";
             this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // label14
             // 
@@ -428,11 +379,76 @@ namespace Yahtzee
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // btnDie1
+            // 
+            this.btnDie1.Enabled = false;
+            this.btnDie1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDie1.Location = new System.Drawing.Point(61, 55);
+            this.btnDie1.Name = "btnDie1";
+            this.btnDie1.Size = new System.Drawing.Size(82, 87);
+            this.btnDie1.TabIndex = 40;
+            this.btnDie1.Tag = "1";
+            this.btnDie1.Text = "1";
+            this.btnDie1.UseVisualStyleBackColor = true;
+            // 
+            // btnDie2
+            // 
+            this.btnDie2.Enabled = false;
+            this.btnDie2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.btnDie2.Location = new System.Drawing.Point(226, 55);
+            this.btnDie2.Name = "btnDie2";
+            this.btnDie2.Size = new System.Drawing.Size(82, 87);
+            this.btnDie2.TabIndex = 41;
+            this.btnDie2.Tag = "2";
+            this.btnDie2.Text = "2";
+            this.btnDie2.UseVisualStyleBackColor = true;
+            // 
+            // btnDie3
+            // 
+            this.btnDie3.Enabled = false;
+            this.btnDie3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.btnDie3.Location = new System.Drawing.Point(141, 171);
+            this.btnDie3.Name = "btnDie3";
+            this.btnDie3.Size = new System.Drawing.Size(82, 87);
+            this.btnDie3.TabIndex = 42;
+            this.btnDie3.Tag = "3";
+            this.btnDie3.Text = "3";
+            this.btnDie3.UseVisualStyleBackColor = true;
+            // 
+            // btnDie4
+            // 
+            this.btnDie4.Enabled = false;
+            this.btnDie4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.btnDie4.Location = new System.Drawing.Point(61, 293);
+            this.btnDie4.Name = "btnDie4";
+            this.btnDie4.Size = new System.Drawing.Size(82, 87);
+            this.btnDie4.TabIndex = 43;
+            this.btnDie4.Tag = "4";
+            this.btnDie4.Text = "4";
+            this.btnDie4.UseVisualStyleBackColor = true;
+            // 
+            // btnDie5
+            // 
+            this.btnDie5.Enabled = false;
+            this.btnDie5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.btnDie5.Location = new System.Drawing.Point(226, 293);
+            this.btnDie5.Name = "btnDie5";
+            this.btnDie5.Size = new System.Drawing.Size(82, 87);
+            this.btnDie5.TabIndex = 44;
+            this.btnDie5.Tag = "5";
+            this.btnDie5.Text = "5";
+            this.btnDie5.UseVisualStyleBackColor = true;
+            // 
             // frmYahtzeeGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 517);
+            this.Controls.Add(this.btnDie5);
+            this.Controls.Add(this.btnDie4);
+            this.Controls.Add(this.btnDie3);
+            this.Controls.Add(this.btnDie2);
+            this.Controls.Add(this.btnDie1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.btnNext);
@@ -468,30 +484,15 @@ namespace Yahtzee
             this.Controls.Add(this.chkDie3);
             this.Controls.Add(this.chkDie2);
             this.Controls.Add(this.chkDie1);
-            this.Controls.Add(this.pbxDie5);
-            this.Controls.Add(this.pbxDie4);
-            this.Controls.Add(this.pbxDie3);
-            this.Controls.Add(this.pbxDie2);
-            this.Controls.Add(this.pbxDie1);
             this.Name = "frmYahtzeeGame";
             this.Text = "Yahtzee!!!";
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDie5)).EndInit();
+            this.Load += new System.EventHandler(this.frmYahtzeeGame_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pbxDie1;
-        private System.Windows.Forms.PictureBox pbxDie2;
-        private System.Windows.Forms.PictureBox pbxDie3;
-        private System.Windows.Forms.PictureBox pbxDie4;
-        private System.Windows.Forms.PictureBox pbxDie5;
         private System.Windows.Forms.CheckBox chkDie1;
         private System.Windows.Forms.CheckBox chkDie2;
         private System.Windows.Forms.CheckBox chkDie3;
@@ -527,6 +528,11 @@ namespace Yahtzee
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnDie1;
+        private System.Windows.Forms.Button btnDie2;
+        private System.Windows.Forms.Button btnDie3;
+        private System.Windows.Forms.Button btnDie4;
+        private System.Windows.Forms.Button btnDie5;
     }
 }
 
