@@ -71,6 +71,8 @@ namespace Yahtzee
             this.btnDie4 = new System.Windows.Forms.Button();
             this.btnDie5 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label15 = new System.Windows.Forms.Label();
+            this.lblTotalScore = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // chkDie1
@@ -139,6 +141,7 @@ namespace Yahtzee
             this.txtOnes.Name = "txtOnes";
             this.txtOnes.Size = new System.Drawing.Size(55, 20);
             this.txtOnes.TabIndex = 10;
+            this.txtOnes.Tag = "ones";
             this.txtOnes.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtOnes_MouseClick);
             this.txtOnes.MouseHover += new System.EventHandler(this.txtOnes_MouseHover);
             // 
@@ -148,7 +151,9 @@ namespace Yahtzee
             this.txtTwos.Name = "txtTwos";
             this.txtTwos.Size = new System.Drawing.Size(55, 20);
             this.txtTwos.TabIndex = 11;
+            this.txtTwos.Tag = "twos";
             this.txtTwos.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtTwos_MouseClick);
+            this.txtTwos.MouseHover += new System.EventHandler(this.txtTwos_MouseHover);
             // 
             // txtThrees
             // 
@@ -156,7 +161,9 @@ namespace Yahtzee
             this.txtThrees.Name = "txtThrees";
             this.txtThrees.Size = new System.Drawing.Size(55, 20);
             this.txtThrees.TabIndex = 12;
+            this.txtThrees.Tag = "threes";
             this.txtThrees.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtThrees_MouseClick);
+            this.txtThrees.MouseHover += new System.EventHandler(this.txtThrees_MouseHover);
             // 
             // txtFours
             // 
@@ -164,7 +171,9 @@ namespace Yahtzee
             this.txtFours.Name = "txtFours";
             this.txtFours.Size = new System.Drawing.Size(55, 20);
             this.txtFours.TabIndex = 13;
+            this.txtFours.Tag = "fours";
             this.txtFours.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtFours_MouseClick);
+            this.txtFours.MouseHover += new System.EventHandler(this.txtFours_MouseHover);
             // 
             // txtFives
             // 
@@ -172,7 +181,9 @@ namespace Yahtzee
             this.txtFives.Name = "txtFives";
             this.txtFives.Size = new System.Drawing.Size(55, 20);
             this.txtFives.TabIndex = 14;
+            this.txtFives.Tag = "fives";
             this.txtFives.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtFives_MouseClick);
+            this.txtFives.MouseHover += new System.EventHandler(this.txtFives_MouseHover);
             // 
             // txtSixs
             // 
@@ -180,7 +191,9 @@ namespace Yahtzee
             this.txtSixs.Name = "txtSixs";
             this.txtSixs.Size = new System.Drawing.Size(55, 20);
             this.txtSixs.TabIndex = 15;
+            this.txtSixs.Tag = "sixs";
             this.txtSixs.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtSixs_MouseClick);
+            this.txtSixs.MouseHover += new System.EventHandler(this.txtSixs_MouseHover);
             // 
             // label1
             // 
@@ -242,7 +255,9 @@ namespace Yahtzee
             this.txtThreeOfKind.Name = "txtThreeOfKind";
             this.txtThreeOfKind.Size = new System.Drawing.Size(55, 20);
             this.txtThreeOfKind.TabIndex = 22;
+            this.txtThreeOfKind.Tag = "threeOfAKind";
             this.txtThreeOfKind.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtThreeOfKind_MouseClick);
+            this.txtThreeOfKind.MouseHover += new System.EventHandler(this.txtThreeOfKind_MouseHover);
             // 
             // txtFourOfKind
             // 
@@ -250,7 +265,9 @@ namespace Yahtzee
             this.txtFourOfKind.Name = "txtFourOfKind";
             this.txtFourOfKind.Size = new System.Drawing.Size(55, 20);
             this.txtFourOfKind.TabIndex = 23;
+            this.txtFourOfKind.Tag = "fourOfAKind";
             this.txtFourOfKind.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtFourOfKind_MouseClick);
+            this.txtFourOfKind.MouseHover += new System.EventHandler(this.txtFourOfKind_MouseHover);
             // 
             // txtFullHouse
             // 
@@ -258,6 +275,8 @@ namespace Yahtzee
             this.txtFullHouse.Name = "txtFullHouse";
             this.txtFullHouse.Size = new System.Drawing.Size(55, 20);
             this.txtFullHouse.TabIndex = 24;
+            this.txtFullHouse.Tag = "fullHouse";
+            this.txtFullHouse.MouseHover += new System.EventHandler(this.txtFullHouse_MouseHover);
             // 
             // txtSmallStraight
             // 
@@ -265,6 +284,8 @@ namespace Yahtzee
             this.txtSmallStraight.Name = "txtSmallStraight";
             this.txtSmallStraight.Size = new System.Drawing.Size(55, 20);
             this.txtSmallStraight.TabIndex = 25;
+            this.txtSmallStraight.Tag = "smallStraight";
+            this.txtSmallStraight.MouseHover += new System.EventHandler(this.txtSmallStraight_MouseHover);
             // 
             // txtLargeStraight
             // 
@@ -272,6 +293,8 @@ namespace Yahtzee
             this.txtLargeStraight.Name = "txtLargeStraight";
             this.txtLargeStraight.Size = new System.Drawing.Size(55, 20);
             this.txtLargeStraight.TabIndex = 26;
+            this.txtLargeStraight.Tag = "largeStraight";
+            this.txtLargeStraight.MouseHover += new System.EventHandler(this.txtLargeStraight_MouseHover);
             // 
             // txtChance
             // 
@@ -279,7 +302,9 @@ namespace Yahtzee
             this.txtChance.Name = "txtChance";
             this.txtChance.Size = new System.Drawing.Size(55, 20);
             this.txtChance.TabIndex = 27;
+            this.txtChance.Tag = "chance";
             this.txtChance.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtChance_MouseClick);
+            this.txtChance.MouseHover += new System.EventHandler(this.txtChance_MouseHover);
             // 
             // txtYahtzee
             // 
@@ -287,6 +312,9 @@ namespace Yahtzee
             this.txtYahtzee.Name = "txtYahtzee";
             this.txtYahtzee.Size = new System.Drawing.Size(60, 20);
             this.txtYahtzee.TabIndex = 28;
+            this.txtYahtzee.Tag = "yahtzee";
+            this.txtYahtzee.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtYahtzee_MouseClick);
+            this.txtYahtzee.MouseHover += new System.EventHandler(this.txtYahtzee_MouseHover);
             // 
             // label7
             // 
@@ -452,11 +480,33 @@ namespace Yahtzee
             this.btnDie5.Text = "5";
             this.btnDie5.UseVisualStyleBackColor = true;
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(377, 367);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(89, 18);
+            this.label15.TabIndex = 45;
+            this.label15.Text = "Total Score:";
+            // 
+            // lblTotalScore
+            // 
+            this.lblTotalScore.AutoSize = true;
+            this.lblTotalScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalScore.Location = new System.Drawing.Point(472, 367);
+            this.lblTotalScore.Name = "lblTotalScore";
+            this.lblTotalScore.Size = new System.Drawing.Size(16, 18);
+            this.lblTotalScore.TabIndex = 46;
+            this.lblTotalScore.Text = "0";
+            // 
             // frmYahtzeeGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 517);
+            this.Controls.Add(this.lblTotalScore);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.btnDie5);
             this.Controls.Add(this.btnDie4);
             this.Controls.Add(this.btnDie3);
@@ -547,6 +597,8 @@ namespace Yahtzee
         private System.Windows.Forms.Button btnDie4;
         private System.Windows.Forms.Button btnDie5;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lblTotalScore;
     }
 }
 
