@@ -18,7 +18,11 @@ namespace Yahtzee
         public static Random rand = new Random();
         int rollCounter = 0;
         int totalScore = 0;
-        private int yahtzeeCounter = 0;
+        int yahtzeeCounter = 0;
+        int turns = 13;
+        int yahtzeeTurn = 1;
+        bool canScore = false;
+        int highScore = 0;
 
         public frmYahtzeeGame()
         {
@@ -56,11 +60,14 @@ namespace Yahtzee
 
         private void btnNext_Click(object sender, EventArgs e)
         {
+            ClearCheckBoxes();
             if (btnNext.Text == "Play")
             {
                 //change btn text
+                ResetBoard();
                 btnNext.Text = "Next Round";
             }
+            canScore = true;
             rollCounter = 1;
             btnRollAgain.Enabled = true;
             btnNext.Enabled = false;
@@ -131,12 +138,13 @@ namespace Yahtzee
                 }
             }
         }
-
-        private int calcScore(string type)
+        /********************  CALC SCORE START **************************************/
+        private int CalcScore(string type)
         {
             int score = 0;
             int searchCriteria;
             int[] numbers = new int[5];
+            int fullHouseMatch3;
             int i = 0;
             foreach (Die d in dice)
             {
@@ -185,6 +193,7 @@ namespace Yahtzee
             }
             //search through array to find repeating numbers. Factor score for variable answers
             Array.Sort(numbers);
+            
             if (score == 0)
             {
                 for (int n = 0; n < 5; n++)
@@ -199,7 +208,6 @@ namespace Yahtzee
 
                             if (numbers[n + 2] == searchCriteria)
                             {   //if you've made it this far, you found your 3-of-a-kind!
-
                                 if (type == "threeOfAKind")
                                 {
                                     foreach (Die d in dice)
@@ -207,6 +215,22 @@ namespace Yahtzee
                                         score += d.DotCount;
                                     }
                                     return score;
+                                }
+                                if (type == "fullHouse")
+                                {
+                                    fullHouseMatch3 = searchCriteria;//example if there are 3 4's, will search 
+                                    for(int b = 0; b < 5; b++)      //through the array again for 2 of the same number that is not 4.
+                                    {
+                                        if (numbers[b] != fullHouseMatch3)
+                                        {
+                                            if (numbers[b + 1] == numbers[b])
+                                            {   //Full House!
+                                                return 25;
+                                            }
+                                        }
+
+                                    }
+
                                 }
                                 if (numbers[n + 3] == searchCriteria)
                                 {   //4-of-a-kind
@@ -225,14 +249,53 @@ namespace Yahtzee
                                             if (yahtzeeCounter > 0)
                                             {
                                                 score = 100;
-                                                yahtzeeCounter++;
                                             } else if (yahtzeeCounter == 0)
                                             {
                                                 score = 50;
-                                                yahtzeeCounter++;
                                             }
                                         }
                                         return score;
+                                    }
+                                }
+                            }
+                        }
+                        else if(numbers[n + 1] == searchCriteria+1)//works 11234. 
+                        {
+                            if(numbers[n+2]== searchCriteria + 2)//breaks 12234
+                            {
+                                if (numbers[n + 3] == searchCriteria + 3)//doesn't work for 12334.
+                                {   //small straight
+                                    if (type == "smallStraight")
+                                    {
+                                        return 30;
+                                    }
+
+                                    if (numbers[n + 4] == searchCriteria + 4)
+                                    {   //large straight
+                                        if (type == "largeStraight")
+                                        {
+                                            return 40;
+                                        }
+                                    }
+                                }
+                                else if (numbers[n + 3] == searchCriteria + 2)//passes 12334
+                                {
+                                    if (numbers[n + 4] == searchCriteria + 3)
+                                    {
+                                        if (type == "smallStraight")
+                                        {
+                                            return 30;
+                                        }
+                                    }
+                                }
+                            }
+                            else if (numbers[n + 3] == searchCriteria + 2)//passes 12234
+                            {
+                                if (numbers[n + 4] == searchCriteria + 3)//12234
+                                {
+                                    if (type == "smallStraight")
+                                    {
+                                        return 30;
                                     }
                                 }
                             }
@@ -246,180 +309,333 @@ namespace Yahtzee
 
             return score;
         }
-
+        /********************  CALC SCORE END **************************************/
         /********************  TOOL TIP START **************************************/
         private void txtOnes_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
 
         }
         private void txtTwos_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtThrees_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtFours_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtFives_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtSixs_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtThreeOfKind_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtFourOfKind_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtFullHouse_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtSmallStraight_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtLargeStraight_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtChance_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
         private void txtYahtzee_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            doToolTip(textBox);
+            DoToolTip(textBox);
         }
 
-        private void txtOnes_MouseClick(object sender, MouseEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-
-        }
         /********************  TOOL TIP END **************************************/
         /********************  TEXT BOX CLICK EVENT START **************************************/
+        private void txtOnes_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
+        }
+
         private void txtTwos_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-
-
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
         }
 
         private void txtThrees_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
         }
 
         private void txtFours_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
         }
 
         private void txtFives_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
         }
 
         private void txtSixs_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
         }
 
         private void txtChance_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
         }
 
         private void txtThreeOfKind_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
         }
 
         private void txtFourOfKind_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
+        }
 
+        private void txtFullHouse_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
+        }
+        private void txtSmallStraight_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
+        }
+
+        private void txtLargeStraight_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
         }
 
         private void txtYahtzee_MouseClick(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            doTextBoxStuff(textBox);
-            /* int score;
-             score = calcScore("yahtzee");
-             totalScore += score;
-             lblTotalScore.Text = totalScore.ToString();
-             score = ((yahtzeeCounter-1) * 100) + 50;
-             txtYahtzee.Text = score.ToString();
-             //txtYahtzee.Enabled = false;*/
+            if (canScore)
+            {
+                TextBox textBox = (TextBox)sender;
+                DoTextBoxStuff(textBox);
+            }
+
         }
         /********************  TEXT BOX CLICK EVENT END **************************************/
-        private void doTextBoxStuff(TextBox textBox)
+        private void DoTextBoxStuff(TextBox textBox)
         {
             int score;
-            score = calcScore(textBox.Tag.ToString());
+            int tempScore;
+            score = CalcScore(textBox.Tag.ToString());
             totalScore += score;
             lblTotalScore.Text = totalScore.ToString();
+            if (textBox.Tag.ToString() == "yahtzee")
+            {
+                tempScore = score;
+                
+                if(tempScore == 0)
+                {   //if you don't have a yahtzee, but you click it.
+                    score = ((yahtzeeCounter-1) * 100) + 50;
+                    if(score== -50)//yahtzee was clicked with a false yahtzee and no previous yahtzees
+                    {
+                        score = 0;
+                        turns -= yahtzeeTurn;
+                        yahtzeeTurn -= yahtzeeTurn;
+                        ClearCheckBoxes();
+
+                    }
+                    else //the box will be disabled, but the turn will not end
+                    {
+
+                    }
+
+                    textBox.Enabled = false;
+                }
+                else
+                {   //yahtzee is true
+                    score = (yahtzeeCounter * 100) + 50;
+                    yahtzeeCounter++;
+                    ClearCheckBoxes();
+                    turns -= yahtzeeTurn;
+                    yahtzeeTurn -= yahtzeeTurn;
+
+                }
+                    
+            }
+            else
+            {   //any box that's not yahtzee
+                ClearCheckBoxes();
+                textBox.Enabled = false;
+                turns--;
+                
+            }
             textBox.Text = score.ToString();
-            textBox.Enabled = false;
+            lblTurns.Text = turns.ToString();
+            btnNext.Text = "Next Round";
+            
+            if (turns == 0)
+            {   //game ends
+                MessageBox.Show("Congratulations! \nYou scored " + totalScore.ToString() + " points!");
+                if (totalScore > highScore)
+                {
+                    highScore = totalScore;
+                    MessageBox.Show("Holy Mackeral! You got the high score!");
+                    lblHighScore.Text = highScore.ToString();
+                }
+
+                btnNext.Text = "Play";
+            }
+            btnNext.Focus();
         }
-        private void doToolTip(TextBox textBox)
+        private void ClearCheckBoxes()
+        {
+            chkDie1.Checked = false;
+            chkDie2.Checked = false;
+            chkDie3.Checked = false;
+            chkDie4.Checked = false;
+            chkDie5.Checked = false;
+            canScore = false;
+            btnRollAgain.Enabled = false;
+            btnNext.Enabled = true;
+        }
+        private void ResetBoard()
+        {
+            totalScore = 0;
+            rollCounter = 0;
+            yahtzeeCounter = 0;
+            turns = 13;
+            yahtzeeTurn = 1;
+            canScore = false;
+            lblTotalScore.Text = 0.ToString();
+            lblTurns.Text = turns.ToString();
+            ClearCheckBoxes();
+            canScore = false;
+            txtOnes.Text = "";
+            txtOnes.Enabled = true;
+            txtTwos.Text = "";
+            txtTwos.Enabled = true;
+            txtThrees.Text = "";
+            txtThrees.Enabled = true;
+            txtFours.Text = "";
+            txtFours.Enabled = true;
+            txtFives.Text = "";
+            txtFives.Enabled = true;
+            txtSixs.Text = "";
+            txtSixs.Enabled = true;
+            txtThreeOfKind.Text = "";
+            txtThreeOfKind.Enabled = true;
+            txtFourOfKind.Text = "";
+            txtFourOfKind.Enabled = true;
+            txtFullHouse.Text = "";
+            txtFullHouse.Enabled = true;
+            txtSmallStraight.Text = "";
+            txtSmallStraight.Enabled = true;
+            txtLargeStraight.Text = "";
+            txtLargeStraight.Enabled = true;
+            txtChance.Text = "";
+            txtChance.Enabled = true;
+            txtYahtzee.Text = "";
+            txtYahtzee.Enabled = true;
+            btnNext.Enabled = true;
+            btnNext.Text = "Play";
+            btnRollAgain.Enabled = false;
+        }
+        private void DoToolTip(TextBox textBox)
         {
             int score;
-            score = calcScore(textBox.Tag.ToString());
+            score = CalcScore(textBox.Tag.ToString());
             toolTip1.SetToolTip(textBox, score.ToString());
         }
 
-
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            ResetBoard();
+        }
     }
 }
