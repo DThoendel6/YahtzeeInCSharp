@@ -73,6 +73,11 @@ namespace Yahtzee
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label15 = new System.Windows.Forms.Label();
             this.lblTotalScore = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.lblTurns = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lblHighScore = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // chkDie1
@@ -80,10 +85,10 @@ namespace Yahtzee
             this.chkDie1.AutoSize = true;
             this.chkDie1.Location = new System.Drawing.Point(61, 154);
             this.chkDie1.Name = "chkDie1";
-            this.chkDie1.Size = new System.Drawing.Size(48, 17);
+            this.chkDie1.Size = new System.Drawing.Size(57, 17);
             this.chkDie1.TabIndex = 5;
             this.chkDie1.Tag = "1";
-            this.chkDie1.Text = "Hold";
+            this.chkDie1.Text = "Hold &4";
             this.chkDie1.UseVisualStyleBackColor = true;
             this.chkDie1.CheckedChanged += new System.EventHandler(this.chkDie1_CheckedChanged);
             // 
@@ -92,10 +97,10 @@ namespace Yahtzee
             this.chkDie2.AutoSize = true;
             this.chkDie2.Location = new System.Drawing.Point(226, 154);
             this.chkDie2.Name = "chkDie2";
-            this.chkDie2.Size = new System.Drawing.Size(48, 17);
+            this.chkDie2.Size = new System.Drawing.Size(57, 17);
             this.chkDie2.TabIndex = 6;
             this.chkDie2.Tag = "2";
-            this.chkDie2.Text = "Hold";
+            this.chkDie2.Text = "Hold &5";
             this.chkDie2.UseVisualStyleBackColor = true;
             this.chkDie2.CheckedChanged += new System.EventHandler(this.chkDie2_CheckedChanged);
             // 
@@ -104,10 +109,10 @@ namespace Yahtzee
             this.chkDie3.AutoSize = true;
             this.chkDie3.Location = new System.Drawing.Point(141, 271);
             this.chkDie3.Name = "chkDie3";
-            this.chkDie3.Size = new System.Drawing.Size(48, 17);
+            this.chkDie3.Size = new System.Drawing.Size(57, 17);
             this.chkDie3.TabIndex = 7;
             this.chkDie3.Tag = "3";
-            this.chkDie3.Text = "Hold";
+            this.chkDie3.Text = "Hold &3";
             this.chkDie3.UseVisualStyleBackColor = true;
             this.chkDie3.CheckedChanged += new System.EventHandler(this.chkDie3_CheckedChanged);
             // 
@@ -116,10 +121,10 @@ namespace Yahtzee
             this.chkDie4.AutoSize = true;
             this.chkDie4.Location = new System.Drawing.Point(61, 387);
             this.chkDie4.Name = "chkDie4";
-            this.chkDie4.Size = new System.Drawing.Size(48, 17);
+            this.chkDie4.Size = new System.Drawing.Size(60, 17);
             this.chkDie4.TabIndex = 8;
             this.chkDie4.Tag = "4";
-            this.chkDie4.Text = "Hold";
+            this.chkDie4.Text = "Hold &1 ";
             this.chkDie4.UseVisualStyleBackColor = true;
             this.chkDie4.CheckedChanged += new System.EventHandler(this.chkDie4_CheckedChanged);
             // 
@@ -128,10 +133,10 @@ namespace Yahtzee
             this.chkDie5.AutoSize = true;
             this.chkDie5.Location = new System.Drawing.Point(226, 387);
             this.chkDie5.Name = "chkDie5";
-            this.chkDie5.Size = new System.Drawing.Size(48, 17);
+            this.chkDie5.Size = new System.Drawing.Size(57, 17);
             this.chkDie5.TabIndex = 9;
             this.chkDie5.Tag = "5";
-            this.chkDie5.Text = "Hold";
+            this.chkDie5.Text = "Hold &2";
             this.chkDie5.UseVisualStyleBackColor = true;
             this.chkDie5.CheckedChanged += new System.EventHandler(this.chkDie5_CheckedChanged);
             // 
@@ -276,6 +281,7 @@ namespace Yahtzee
             this.txtFullHouse.Size = new System.Drawing.Size(55, 20);
             this.txtFullHouse.TabIndex = 24;
             this.txtFullHouse.Tag = "fullHouse";
+            this.txtFullHouse.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtFullHouse_MouseClick);
             this.txtFullHouse.MouseHover += new System.EventHandler(this.txtFullHouse_MouseHover);
             // 
             // txtSmallStraight
@@ -285,6 +291,7 @@ namespace Yahtzee
             this.txtSmallStraight.Size = new System.Drawing.Size(55, 20);
             this.txtSmallStraight.TabIndex = 25;
             this.txtSmallStraight.Tag = "smallStraight";
+            this.txtSmallStraight.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtSmallStraight_MouseClick);
             this.txtSmallStraight.MouseHover += new System.EventHandler(this.txtSmallStraight_MouseHover);
             // 
             // txtLargeStraight
@@ -294,6 +301,7 @@ namespace Yahtzee
             this.txtLargeStraight.Size = new System.Drawing.Size(55, 20);
             this.txtLargeStraight.TabIndex = 26;
             this.txtLargeStraight.Tag = "largeStraight";
+            this.txtLargeStraight.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtLargeStraight_MouseClick);
             this.txtLargeStraight.MouseHover += new System.EventHandler(this.txtLargeStraight_MouseHover);
             // 
             // txtChance
@@ -385,7 +393,7 @@ namespace Yahtzee
             this.btnRollAgain.Name = "btnRollAgain";
             this.btnRollAgain.Size = new System.Drawing.Size(75, 23);
             this.btnRollAgain.TabIndex = 36;
-            this.btnRollAgain.Text = "Roll Again";
+            this.btnRollAgain.Text = "&Roll Again";
             this.btnRollAgain.UseVisualStyleBackColor = true;
             this.btnRollAgain.Click += new System.EventHandler(this.btnRollAgain_Click);
             // 
@@ -395,7 +403,7 @@ namespace Yahtzee
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 37;
-            this.btnNext.Text = "Play";
+            this.btnNext.Text = "&Play";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
@@ -500,11 +508,62 @@ namespace Yahtzee
             this.lblTotalScore.TabIndex = 46;
             this.lblTotalScore.Text = "0";
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(380, 425);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(54, 13);
+            this.label16.TabIndex = 47;
+            this.label16.Text = "Turns left:";
+            // 
+            // lblTurns
+            // 
+            this.lblTurns.AutoSize = true;
+            this.lblTurns.Location = new System.Drawing.Point(432, 425);
+            this.lblTurns.Name = "lblTurns";
+            this.lblTurns.Size = new System.Drawing.Size(19, 13);
+            this.lblTurns.TabIndex = 48;
+            this.lblTurns.Text = "13";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(380, 459);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(63, 13);
+            this.label17.TabIndex = 49;
+            this.label17.Text = "High Score:";
+            // 
+            // lblHighScore
+            // 
+            this.lblHighScore.AutoSize = true;
+            this.lblHighScore.Location = new System.Drawing.Point(449, 459);
+            this.lblHighScore.Name = "lblHighScore";
+            this.lblHighScore.Size = new System.Drawing.Size(13, 13);
+            this.lblHighScore.TabIndex = 50;
+            this.lblHighScore.Text = "0";
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(141, 475);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 51;
+            this.btnReset.Text = "Reset Game";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
             // frmYahtzeeGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 517);
+            this.Controls.Add(this.btnReset);
+            this.Controls.Add(this.lblHighScore);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.lblTurns);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.lblTotalScore);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.btnDie5);
@@ -599,6 +658,11 @@ namespace Yahtzee
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lblTotalScore;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label lblTurns;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lblHighScore;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 
