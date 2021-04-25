@@ -9,8 +9,8 @@ namespace Yahtzee
 {
     class Game
     {
-        public int CurrentDiceRollScore { get; set; }
-        public PictureBox[] DicePics { get; set; }
+        //public int CurrentDiceRollScore { get; set; }
+       // public PictureBox[] DicePics { get; set; }
 
 
 
@@ -18,7 +18,7 @@ namespace Yahtzee
 
         public Game(List<Die> dice) 
         {
-            DicePics = new PictureBox[5];
+            //DicePics = new PictureBox[5];
         }
 
 

@@ -76,8 +76,26 @@ namespace Yahtzee
             this.label16 = new System.Windows.Forms.Label();
             this.lblTurns = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.lblHighScore = new System.Windows.Forms.Label();
+            this.lblTheHighScore = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
+            this.pnlRegistration = new System.Windows.Forms.Panel();
+            this.txtPasswordConfirm = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.lblConfirm = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.rdoLogin = new System.Windows.Forms.RadioButton();
+            this.rdoRegister = new System.Windows.Forms.RadioButton();
+            this.btnSignIn = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.lblUsernameWarning = new System.Windows.Forms.Label();
+            this.lblPassWarning = new System.Windows.Forms.Label();
+            this.lblPassConfirmWarning = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.lblYourHighScore = new System.Windows.Forms.Label();
+            this.lblGoodLuck = new System.Windows.Forms.Label();
+            this.pnlRegistration.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkDie1
@@ -139,6 +157,34 @@ namespace Yahtzee
             this.chkDie5.Text = "Hold &2";
             this.chkDie5.UseVisualStyleBackColor = true;
             this.chkDie5.CheckedChanged += new System.EventHandler(this.chkDie5_CheckedChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(355, 445);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(88, 13);
+            this.label21.TabIndex = 53;
+            this.label21.Text = "Your High Score: ";
+            // 
+            // lblYourHighScore
+            // 
+            this.lblYourHighScore.AutoSize = true;
+            this.lblYourHighScore.Location = new System.Drawing.Point(449, 445);
+            this.lblYourHighScore.Name = "lblYourHighScore";
+            this.lblYourHighScore.Size = new System.Drawing.Size(13, 13);
+            this.lblYourHighScore.TabIndex = 54;
+            this.lblYourHighScore.Text = "0";
+            // 
+            // lblGoodLuck
+            // 
+            this.lblGoodLuck.AutoSize = true;
+            this.lblGoodLuck.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGoodLuck.Location = new System.Drawing.Point(225, 9);
+            this.lblGoodLuck.Name = "lblGoodLuck";
+            this.lblGoodLuck.Size = new System.Drawing.Size(86, 18);
+            this.lblGoodLuck.TabIndex = 55;
+            this.lblGoodLuck.Text = "Good Luck ";
             // 
             // txtOnes
             // 
@@ -341,6 +387,7 @@ namespace Yahtzee
             this.label8.Size = new System.Drawing.Size(44, 13);
             this.label8.TabIndex = 30;
             this.label8.Text = "Chance";
+            this.label8.MouseHover += new System.EventHandler(this.label8_MouseHover);
             // 
             // label9
             // 
@@ -511,7 +558,7 @@ namespace Yahtzee
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(380, 425);
+            this.label16.Location = new System.Drawing.Point(389, 407);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(54, 13);
             this.label16.TabIndex = 47;
@@ -520,7 +567,7 @@ namespace Yahtzee
             // lblTurns
             // 
             this.lblTurns.AutoSize = true;
-            this.lblTurns.Location = new System.Drawing.Point(432, 425);
+            this.lblTurns.Location = new System.Drawing.Point(449, 407);
             this.lblTurns.Name = "lblTurns";
             this.lblTurns.Size = new System.Drawing.Size(19, 13);
             this.lblTurns.TabIndex = 48;
@@ -529,20 +576,20 @@ namespace Yahtzee
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(380, 459);
+            this.label17.Location = new System.Drawing.Point(358, 475);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(63, 13);
+            this.label17.Size = new System.Drawing.Size(85, 13);
             this.label17.TabIndex = 49;
-            this.label17.Text = "High Score:";
+            this.label17.Text = "The High Score:";
             // 
-            // lblHighScore
+            // lblTheHighScore
             // 
-            this.lblHighScore.AutoSize = true;
-            this.lblHighScore.Location = new System.Drawing.Point(449, 459);
-            this.lblHighScore.Name = "lblHighScore";
-            this.lblHighScore.Size = new System.Drawing.Size(13, 13);
-            this.lblHighScore.TabIndex = 50;
-            this.lblHighScore.Text = "0";
+            this.lblTheHighScore.AutoSize = true;
+            this.lblTheHighScore.Location = new System.Drawing.Point(449, 475);
+            this.lblTheHighScore.Name = "lblTheHighScore";
+            this.lblTheHighScore.Size = new System.Drawing.Size(13, 13);
+            this.lblTheHighScore.TabIndex = 50;
+            this.lblTheHighScore.Text = "0";
             // 
             // btnReset
             // 
@@ -554,13 +601,161 @@ namespace Yahtzee
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
+            // pnlRegistration
+            // 
+            this.pnlRegistration.Controls.Add(this.lblPassConfirmWarning);
+            this.pnlRegistration.Controls.Add(this.lblPassWarning);
+            this.pnlRegistration.Controls.Add(this.lblUsernameWarning);
+            this.pnlRegistration.Controls.Add(this.txtPasswordConfirm);
+            this.pnlRegistration.Controls.Add(this.txtPassword);
+            this.pnlRegistration.Controls.Add(this.txtUsername);
+            this.pnlRegistration.Controls.Add(this.lblConfirm);
+            this.pnlRegistration.Controls.Add(this.label20);
+            this.pnlRegistration.Controls.Add(this.label19);
+            this.pnlRegistration.Controls.Add(this.rdoLogin);
+            this.pnlRegistration.Controls.Add(this.rdoRegister);
+            this.pnlRegistration.Controls.Add(this.btnSignIn);
+            this.pnlRegistration.Controls.Add(this.label18);
+            this.pnlRegistration.Location = new System.Drawing.Point(20, 9);
+            this.pnlRegistration.Name = "pnlRegistration";
+            this.pnlRegistration.Size = new System.Drawing.Size(623, 492);
+            this.pnlRegistration.TabIndex = 52;
+            // 
+            // txtPasswordConfirm
+            // 
+            this.txtPasswordConfirm.Location = new System.Drawing.Point(220, 286);
+            this.txtPasswordConfirm.Name = "txtPasswordConfirm";
+            this.txtPasswordConfirm.Size = new System.Drawing.Size(100, 20);
+            this.txtPasswordConfirm.TabIndex = 9;
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(220, 229);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtPassword.TabIndex = 8;
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.Location = new System.Drawing.Point(220, 176);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(100, 20);
+            this.txtUsername.TabIndex = 7;
+            // 
+            // lblConfirm
+            // 
+            this.lblConfirm.AutoSize = true;
+            this.lblConfirm.Location = new System.Drawing.Point(120, 289);
+            this.lblConfirm.Name = "lblConfirm";
+            this.lblConfirm.Size = new System.Drawing.Size(94, 13);
+            this.lblConfirm.TabIndex = 6;
+            this.lblConfirm.Text = "Confirm Password:";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(158, 232);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(56, 13);
+            this.label20.TabIndex = 5;
+            this.label20.Text = "Password:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(156, 179);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(58, 13);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "Username:";
+            // 
+            // rdoLogin
+            // 
+            this.rdoLogin.AutoSize = true;
+            this.rdoLogin.Location = new System.Drawing.Point(318, 97);
+            this.rdoLogin.Name = "rdoLogin";
+            this.rdoLogin.Size = new System.Drawing.Size(79, 17);
+            this.rdoLogin.TabIndex = 3;
+            this.rdoLogin.Text = "Log-in User";
+            this.rdoLogin.UseVisualStyleBackColor = true;
+            this.rdoLogin.CheckedChanged += new System.EventHandler(this.rdoLogin_CheckedChanged);
+            // 
+            // rdoRegister
+            // 
+            this.rdoRegister.AutoSize = true;
+            this.rdoRegister.Checked = true;
+            this.rdoRegister.Location = new System.Drawing.Point(156, 97);
+            this.rdoRegister.Name = "rdoRegister";
+            this.rdoRegister.Size = new System.Drawing.Size(89, 17);
+            this.rdoRegister.TabIndex = 2;
+            this.rdoRegister.TabStop = true;
+            this.rdoRegister.Text = "Register User";
+            this.rdoRegister.UseVisualStyleBackColor = true;
+            this.rdoRegister.CheckedChanged += new System.EventHandler(this.rdoRegister_CheckedChanged);
+            // 
+            // btnSignIn
+            // 
+            this.btnSignIn.Location = new System.Drawing.Point(256, 407);
+            this.btnSignIn.Name = "btnSignIn";
+            this.btnSignIn.Size = new System.Drawing.Size(75, 23);
+            this.btnSignIn.TabIndex = 1;
+            this.btnSignIn.Text = "&Sign in";
+            this.btnSignIn.UseVisualStyleBackColor = true;
+            this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.ForeColor = System.Drawing.Color.Red;
+            this.label18.Location = new System.Drawing.Point(175, 25);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(217, 25);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Welcome to Yahtzee!";
+            // 
+            // lblUsernameWarning
+            // 
+            this.lblUsernameWarning.AutoSize = true;
+            this.lblUsernameWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblUsernameWarning.Location = new System.Drawing.Point(326, 179);
+            this.lblUsernameWarning.Name = "lblUsernameWarning";
+            this.lblUsernameWarning.Size = new System.Drawing.Size(11, 13);
+            this.lblUsernameWarning.TabIndex = 10;
+            this.lblUsernameWarning.Text = "*";
+            // 
+            // lblPassWarning
+            // 
+            this.lblPassWarning.AutoSize = true;
+            this.lblPassWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblPassWarning.Location = new System.Drawing.Point(329, 231);
+            this.lblPassWarning.Name = "lblPassWarning";
+            this.lblPassWarning.Size = new System.Drawing.Size(11, 13);
+            this.lblPassWarning.TabIndex = 11;
+            this.lblPassWarning.Text = "*";
+            // 
+            // lblPassConfirmWarning
+            // 
+            this.lblPassConfirmWarning.AutoSize = true;
+            this.lblPassConfirmWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblPassConfirmWarning.Location = new System.Drawing.Point(329, 289);
+            this.lblPassConfirmWarning.Name = "lblPassConfirmWarning";
+            this.lblPassConfirmWarning.Size = new System.Drawing.Size(11, 13);
+            this.lblPassConfirmWarning.TabIndex = 12;
+            this.lblPassConfirmWarning.Text = "*";
+
+            // 
             // frmYahtzeeGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 517);
+            this.Controls.Add(this.pnlRegistration);
+            this.Controls.Add(this.lblGoodLuck);
+            this.Controls.Add(this.lblYourHighScore);
+            this.Controls.Add(this.label21);
             this.Controls.Add(this.btnReset);
-            this.Controls.Add(this.lblHighScore);
+            this.Controls.Add(this.lblTheHighScore);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.lblTurns);
             this.Controls.Add(this.label16);
@@ -609,6 +804,8 @@ namespace Yahtzee
             this.Name = "frmYahtzeeGame";
             this.Text = "Yahtzee!!!";
             this.Load += new System.EventHandler(this.frmYahtzeeGame_Load);
+            this.pnlRegistration.ResumeLayout(false);
+            this.pnlRegistration.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -661,8 +858,25 @@ namespace Yahtzee
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label lblTurns;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label lblHighScore;
+        private System.Windows.Forms.Label lblTheHighScore;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Panel pnlRegistration;
+        private System.Windows.Forms.Button btnSignIn;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox txtPasswordConfirm;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.Label lblConfirm;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.RadioButton rdoLogin;
+        private System.Windows.Forms.RadioButton rdoRegister;
+        private System.Windows.Forms.Label lblPassConfirmWarning;
+        private System.Windows.Forms.Label lblPassWarning;
+        private System.Windows.Forms.Label lblUsernameWarning;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblYourHighScore;
+        private System.Windows.Forms.Label lblGoodLuck;
     }
 }
 
