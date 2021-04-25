@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,6 +24,9 @@ namespace Yahtzee
         int yahtzeeTurn = 1;
         bool canScore = false;
         int highScore = 0;
+        User player = new User();
+
+        bool signIn = false;
 
         public frmYahtzeeGame()
         {
@@ -60,12 +64,16 @@ namespace Yahtzee
 
         private void btnNext_Click(object sender, EventArgs e)
         {
+            
             ClearCheckBoxes();
-            if (btnNext.Text == "Play")
+            if (btnNext.Text == "&Play")
             {
+                lblGoodLuck.Text = "Good Luck " + player.Username + "!";
+                lblTheHighScore.Text = YahtzeeDA.getTheHighScore().ToString();
+                lblYourHighScore.Text = player.UserHighScore.ToString();
                 //change btn text
                 ResetBoard();
-                btnNext.Text = "Next Round";
+                btnNext.Text = "&Next Round";
             }
             canScore = true;
             rollCounter = 1;
@@ -193,7 +201,7 @@ namespace Yahtzee
             }
             //search through array to find repeating numbers. Factor score for variable answers
             Array.Sort(numbers);
-            
+
             if (score == 0)
             {
                 for (int n = 0; n < 5; n++)
@@ -219,7 +227,7 @@ namespace Yahtzee
                                 if (type == "fullHouse")
                                 {
                                     fullHouseMatch3 = searchCriteria;//example if there are 3 4's, will search 
-                                    for(int b = 0; b < 5; b++)      //through the array again for 2 of the same number that is not 4.
+                                    for (int b = 0; b < 5; b++)      //through the array again for 2 of the same number that is not 4.
                                     {
                                         if (numbers[b] != fullHouseMatch3)
                                         {
@@ -259,9 +267,9 @@ namespace Yahtzee
                                 }
                             }
                         }
-                        else if(numbers[n + 1] == searchCriteria+1)//works 11234. 
+                        else if (numbers[n + 1] == searchCriteria + 1)//works 11234. 
                         {
-                            if(numbers[n+2]== searchCriteria + 2)//breaks 12234
+                            if (numbers[n + 2] == searchCriteria + 2)//breaks 12234
                             {
                                 if (numbers[n + 3] == searchCriteria + 3)//doesn't work for 12334.
                                 {   //small straight
@@ -311,6 +319,10 @@ namespace Yahtzee
         }
         /********************  CALC SCORE END **************************************/
         /********************  TOOL TIP START **************************************/
+        private void label8_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(label8, "Adds all of the dice together");
+        }
         private void txtOnes_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
@@ -518,11 +530,11 @@ namespace Yahtzee
             if (textBox.Tag.ToString() == "yahtzee")
             {
                 tempScore = score;
-                
-                if(tempScore == 0)
+
+                if (tempScore == 0)
                 {   //if you don't have a yahtzee, but you click it.
-                    score = ((yahtzeeCounter-1) * 100) + 50;
-                    if(score== -50)//yahtzee was clicked with a false yahtzee and no previous yahtzees
+                    score = ((yahtzeeCounter - 1) * 100) + 50;
+                    if (score == -50)//yahtzee was clicked with a false yahtzee and no previous yahtzees
                     {
                         score = 0;
                         turns -= yahtzeeTurn;
@@ -546,19 +558,19 @@ namespace Yahtzee
                     yahtzeeTurn -= yahtzeeTurn;
 
                 }
-                    
+
             }
             else
             {   //any box that's not yahtzee
                 ClearCheckBoxes();
                 textBox.Enabled = false;
                 turns--;
-                
+
             }
             textBox.Text = score.ToString();
             lblTurns.Text = turns.ToString();
-            btnNext.Text = "Next Round";
-            
+            btnNext.Text = "&Next Round";
+
             if (turns == 0)
             {   //game ends
                 MessageBox.Show("Congratulations! \nYou scored " + totalScore.ToString() + " points!");
@@ -566,7 +578,7 @@ namespace Yahtzee
                 {
                     highScore = totalScore;
                     MessageBox.Show("Holy Mackeral! You got the high score!");
-                    lblHighScore.Text = highScore.ToString();
+                    lblTheHighScore.Text = highScore.ToString();
                 }
 
                 btnNext.Text = "Play";
@@ -637,5 +649,146 @@ namespace Yahtzee
         {
             ResetBoard();
         }
+        private void rdoRegister_CheckedChanged(object sender, EventArgs e)
+        {
+            lblConfirm.Visible = true;
+            txtPasswordConfirm.Visible = true;
+            lblPassConfirmWarning.Visible = true;
+            ClearLoginBoxes();
+        }
+
+        private void rdoLogin_CheckedChanged(object sender, EventArgs e)
+        {
+            lblConfirm.Visible = false;
+            txtPasswordConfirm.Visible = false;
+            lblPassConfirmWarning.Visible = false;
+            ClearLoginBoxes();
+        }
+        private void ClearLoginBoxes()
+        {
+            txtUsername.Text = "";
+            txtPassword.Text = "";
+            txtPasswordConfirm.Text = "";
+        }
+    
+        private void btnSignIn_Click(object sender, EventArgs e)
+        {
+            string username = txtUsername.Text;
+            bool usernamePass = true;
+            string password = txtPassword.Text;
+            bool passwordPass = true;
+            string passwordConfirm;
+            if (rdoRegister.Checked)
+            {
+                if (YahtzeeDA.CheckUsernameAvailability(username))//if the name is available...
+                {
+                    usernamePass = true;
+                    passwordConfirm = txtPasswordConfirm.Text;
+                    //check password
+                    if(password == passwordConfirm)
+                    {   //if passwords match, check credentials
+                        if(password == "")
+                        {
+                            lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
+                            passwordPass = false;
+                        }
+                        else if (new Regex(@"^[a-zA-Z0-9]{2,50}$").IsMatch(password) == false)
+                        {
+                            lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
+                            passwordPass = false;
+                        }
+                    }
+                    else
+                    {   //if passwords don't match
+                        lblPassConfirmWarning.Text = "Passwords do not match";
+                        passwordPass = false;
+                    }
+                    
+                }
+                else//username is taken
+                {
+                    lblUsernameWarning.Text = "Username taken. try again";
+                    usernamePass = false;
+                }
+
+                if (usernamePass && passwordPass)
+                {   //user registers, User = user, add user to DB
+                    player.UserId = 1;
+                    player.Username = username;
+                    player.UserHighScore = 0;
+                    player.UserNumberOfGamesPlayed = 0;
+                    YahtzeeDA.AddPlayer(player, password);
+                    //GAME START
+                    pnlRegistration.Hide();
+                }
+                else
+                {
+                    txtPassword.Text = "";
+                    txtPasswordConfirm.Text = "";
+                    txtPassword.Focus();
+                }
+            }
+            else if (rdoLogin.Checked)
+            {
+                passwordConfirm = password;
+                if (!YahtzeeDA.CheckUsernameAvailability(username))//if the name is available...
+                {
+                    usernamePass = true;
+                    passwordConfirm = txtPasswordConfirm.Text;
+                    //check password
+                    if (password == "")
+                    {
+                        lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
+                        passwordPass = false;
+                    }
+                    else if (new Regex(@"^[a-zA-Z0-9]{2,40}$").IsMatch(password) == false)
+                    {
+                        lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
+                        passwordPass = false;
+                    }
+                    
+                    if (passwordPass) { 
+                        if (YahtzeeDA.CheckPassword(username, password))
+                        {   //skips accessing the DB if the password doesn't even meet requirements
+                            //User Signed In!
+                            passwordPass = true;
+                        }
+                        else
+                        {
+                            lblPassWarning.Text = "Username or Password did not match";
+                            passwordPass = false;
+                        }
+                    }
+                }
+                else//username is taken
+                {
+                    lblUsernameWarning.Text = "Username not found. try again";
+                    passwordPass = false;
+                }
+                if (usernamePass && passwordPass)
+                {   //user registers, User = user, add user to DB
+                    player = YahtzeeDA.GetUser(username);
+                    //GAME START
+                    pnlRegistration.Hide();
+                    
+                }
+                else
+                {
+                    txtPassword.Text = "";
+                    txtPassword.Focus();
+                }
+            }           
+        }
+        /////////////////////////////////////////////
+        ///TO DO////////TO DO/////////////TO DO//////
+        ///set both buttons to disabled forcing the user to pick a box on 3rd roll.
+        ///add a log out button that resets the "good luck" and "your high score" label,
+        ///bring up the panel again, all reset though.
+        ///error proof the log in.
+        ///Seperate logic into Game class.
+        ///set dice button images to dice pics.
+        ///...
+        ///done?
+
     }
 }
