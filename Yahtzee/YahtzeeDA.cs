@@ -230,5 +230,39 @@ namespace Yahtzee
 
             return score;
         }
+        public static void UpdateUserScores(User player)
+        {
+            int numRows = 0;
+            SqlConnection conn = YahtzeeDBA.GetYahtzeeConnection();
+
+            string updateStatement = "Update Users set UserHighScore = @NewUserHighScore, " +
+                "UserNumberOfGamesPlayed = @NewUserNumberOfGamesPlayed " +
+                "WHERE Username = @theUserName";
+
+            SqlCommand updateCommand = new SqlCommand(updateStatement, conn);
+
+            updateCommand.Parameters.AddWithValue("@NewUserHighScore", player.UserHighScore);
+            updateCommand.Parameters.AddWithValue("@NewUserNumberOfGamesPlayed", player.UserNumberOfGamesPlayed);
+            updateCommand.Parameters.AddWithValue("@theUserName", player.Username);
+
+            try
+            {
+                conn.Open();
+                numRows = updateCommand.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return;
+        }
     }
 }

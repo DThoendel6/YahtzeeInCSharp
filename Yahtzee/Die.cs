@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,22 @@ namespace Yahtzee
                 newCount = frmYahtzeeGame.rand.Next(1, 7);
                 DotCount = newCount;
             }
+        }
+
+        public Image GetDieImage()
+        {
+            if (DotCount == 1)
+                return Yahtzee.Properties.Resources.dice1;
+            else if (DotCount == 2)
+                return Yahtzee.Properties.Resources.dice2;
+            else if (DotCount == 3)
+                return Yahtzee.Properties.Resources.dice3;
+            else if (DotCount == 4)
+                return Yahtzee.Properties.Resources.dice4;
+            else if (DotCount == 5)
+                return Yahtzee.Properties.Resources.dice5;
+            else
+                return Yahtzee.Properties.Resources.dice6;
         }
 
     }

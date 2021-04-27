@@ -12,6 +12,7 @@ namespace Yahtzee
         public string Username { get; set; }
         public int UserHighScore { get; set; }
         public int UserNumberOfGamesPlayed { get; set; }
+        public bool CanScore = false;
 
         public User() { }
 

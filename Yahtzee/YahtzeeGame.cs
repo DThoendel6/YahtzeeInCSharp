@@ -22,11 +22,7 @@ namespace Yahtzee
         int yahtzeeCounter = 0;
         int turns = 13;
         int yahtzeeTurn = 1;
-        bool canScore = false;
-        int highScore = 0;
         User player = new User();
-
-        bool signIn = false;
 
         public frmYahtzeeGame()
         {
@@ -34,11 +30,20 @@ namespace Yahtzee
             InitializeComponent();
         }
 
-
-
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            player = new User();
+            ResetBoard();
+            pnlRegistration.Visible = true;
+            rdoLogin.Checked = true;
+            rdoRegister.Checked = true;
+            rdoLogin.Checked = true;
+            txtUsername.Focus();
+
         }
 
         private void frmYahtzeeGame_Load(object sender, EventArgs e)
@@ -56,11 +61,12 @@ namespace Yahtzee
                 die = new Die(id, id, false);
                 die.Roll();
                 dice.Add(die);
-                buttons.ElementAt(die.DieId - 1).Text = (die.DotCount).ToString();
-
+                buttons.ElementAt(die.DieId - 1).Text = "";//(die.DotCount).ToString();
+                buttons.ElementAt(die.DieId - 1).Image = die.GetDieImage();
             }
 
         }
+
 
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -71,11 +77,12 @@ namespace Yahtzee
                 lblGoodLuck.Text = "Good Luck " + player.Username + "!";
                 lblTheHighScore.Text = YahtzeeDA.getTheHighScore().ToString();
                 lblYourHighScore.Text = player.UserHighScore.ToString();
+                player.UserNumberOfGamesPlayed++;
                 //change btn text
                 ResetBoard();
                 btnNext.Text = "&Next Round";
             }
-            canScore = true;
+            player.CanScore = true;
             rollCounter = 1;
             btnRollAgain.Enabled = true;
             btnNext.Enabled = false;
@@ -89,48 +96,8 @@ namespace Yahtzee
             foreach (Die d in dice)
             {
                 d.Roll();
-                buttons.ElementAt(d.DieId - 1).Text = (d.DotCount).ToString();
+                buttons.ElementAt(d.DieId - 1).Image = d.GetDieImage(); 
             }
-        }
-
-        private void chkDie1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (dice.ElementAt(0).Hold == false)
-                dice.ElementAt(0).Hold = true;
-            else if (dice.ElementAt(0).Hold == true)
-                dice.ElementAt(0).Hold = false;
-        }
-
-        private void chkDie2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (dice.ElementAt(1).Hold == false)
-                dice.ElementAt(1).Hold = true;
-            else if (dice.ElementAt(1).Hold == true)
-                dice.ElementAt(1).Hold = false;
-        }
-
-        private void chkDie3_CheckedChanged(object sender, EventArgs e)
-        {
-            if (dice.ElementAt(2).Hold == false)
-                dice.ElementAt(2).Hold = true;
-            else if (dice.ElementAt(2).Hold == true)
-                dice.ElementAt(2).Hold = false;
-        }
-
-        private void chkDie4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (dice.ElementAt(3).Hold == false)
-                dice.ElementAt(3).Hold = true;
-            else if (dice.ElementAt(3).Hold == true)
-                dice.ElementAt(3).Hold = false;
-        }
-
-        private void chkDie5_CheckedChanged(object sender, EventArgs e)
-        {
-            if (dice.ElementAt(4).Hold == false)
-                dice.ElementAt(4).Hold = true;
-            else if (dice.ElementAt(4).Hold == true)
-                dice.ElementAt(4).Hold = false;
         }
 
         private void btnRollAgain_Click(object sender, EventArgs e)
@@ -142,182 +109,48 @@ namespace Yahtzee
                 if (rollCounter == 3)
                 {
                     btnRollAgain.Enabled = false;
-                    btnNext.Enabled = true;
+                    btnNext.Enabled = false;
                 }
             }
         }
-        /********************  CALC SCORE START **************************************/
-        private int CalcScore(string type)
+        /********************   **************************************/
+        /********************  EVENT START  **************************************/
+
+        private void chkDie1_CheckedChanged(object sender, EventArgs e)
         {
-            int score = 0;
-            int searchCriteria;
-            int[] numbers = new int[5];
-            int fullHouseMatch3;
-            int i = 0;
-            foreach (Die d in dice)
-            {
-                if (type == "ones")
-                {
-                    if (d.DotCount == 1)
-                    {
-                        score += 1;
-                    }
-                } else if (type == "twos")
-                {
-                    if (d.DotCount == 2)
-                    {
-                        score += 2;
-                    }
-                } else if (type == "threes")
-                {
-                    if (d.DotCount == 3)
-                    {
-                        score += 3;
-                    }
-                } else if (type == "fours")
-                {
-                    if (d.DotCount == 4)
-                    {
-                        score += 4;
-                    }
-                } else if (type == "fives")
-                {
-                    if (d.DotCount == 5)
-                    {
-                        score += 5;
-                    }
-                } else if (type == "sixs")
-                {
-                    if (d.DotCount == 6)
-                    {
-                        score += 6;
-                    }
-                } else if (type == "chance")
-                {
-                    score += d.DotCount;
-                }
-                numbers[i] = d.DotCount;
-                i++;
-            }
-            //search through array to find repeating numbers. Factor score for variable answers
-            Array.Sort(numbers);
-
-            if (score == 0)
-            {
-                for (int n = 0; n < 5; n++)
-                {
-                    searchCriteria = numbers[n];
-                    try
-                    {
-                        if (numbers[n + 1] == searchCriteria)
-                        {   //if the first 2 numbers in the sorted array are equal, it will check the 3rd number
-                            //if 3 numbers are equal to each other, that fits the criteria for the rest
-                            //of the score boxes until 4-of-a-kind or yahtzee.
-
-                            if (numbers[n + 2] == searchCriteria)
-                            {   //if you've made it this far, you found your 3-of-a-kind!
-                                if (type == "threeOfAKind")
-                                {
-                                    foreach (Die d in dice)
-                                    {
-                                        score += d.DotCount;
-                                    }
-                                    return score;
-                                }
-                                if (type == "fullHouse")
-                                {
-                                    fullHouseMatch3 = searchCriteria;//example if there are 3 4's, will search 
-                                    for (int b = 0; b < 5; b++)      //through the array again for 2 of the same number that is not 4.
-                                    {
-                                        if (numbers[b] != fullHouseMatch3)
-                                        {
-                                            if (numbers[b + 1] == numbers[b])
-                                            {   //Full House!
-                                                return 25;
-                                            }
-                                        }
-
-                                    }
-
-                                }
-                                if (numbers[n + 3] == searchCriteria)
-                                {   //4-of-a-kind
-                                    if (type == "fourOfAKind")
-                                    {
-                                        foreach (Die d in dice)
-                                        {
-                                            score += d.DotCount;
-                                        }
-                                        return score;
-                                    }
-                                    if (numbers[n + 4] == searchCriteria)
-                                    {   //YAHTZEE!
-                                        if (type == "yahtzee")
-                                        {
-                                            if (yahtzeeCounter > 0)
-                                            {
-                                                score = 100;
-                                            } else if (yahtzeeCounter == 0)
-                                            {
-                                                score = 50;
-                                            }
-                                        }
-                                        return score;
-                                    }
-                                }
-                            }
-                        }
-                        else if (numbers[n + 1] == searchCriteria + 1)//works 11234. 
-                        {
-                            if (numbers[n + 2] == searchCriteria + 2)//breaks 12234
-                            {
-                                if (numbers[n + 3] == searchCriteria + 3)//doesn't work for 12334.
-                                {   //small straight
-                                    if (type == "smallStraight")
-                                    {
-                                        return 30;
-                                    }
-
-                                    if (numbers[n + 4] == searchCriteria + 4)
-                                    {   //large straight
-                                        if (type == "largeStraight")
-                                        {
-                                            return 40;
-                                        }
-                                    }
-                                }
-                                else if (numbers[n + 3] == searchCriteria + 2)//passes 12334
-                                {
-                                    if (numbers[n + 4] == searchCriteria + 3)
-                                    {
-                                        if (type == "smallStraight")
-                                        {
-                                            return 30;
-                                        }
-                                    }
-                                }
-                            }
-                            else if (numbers[n + 3] == searchCriteria + 2)//passes 12234
-                            {
-                                if (numbers[n + 4] == searchCriteria + 3)//12234
-                                {
-                                    if (type == "smallStraight")
-                                    {
-                                        return 30;
-                                    }
-                                }
-                            }
-                        }
-                    } catch (IndexOutOfRangeException e)
-                    {
-
-                    }
-                }
-            }
-
-            return score;
+            if (dice.ElementAt(0).Hold == false)
+                dice.ElementAt(0).Hold = true;
+            else if (dice.ElementAt(0).Hold == true)
+                dice.ElementAt(0).Hold = false;
         }
-        /********************  CALC SCORE END **************************************/
+        private void chkDie2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dice.ElementAt(1).Hold == false)
+                dice.ElementAt(1).Hold = true;
+            else if (dice.ElementAt(1).Hold == true)
+                dice.ElementAt(1).Hold = false;
+        }
+        private void chkDie3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dice.ElementAt(2).Hold == false)
+                dice.ElementAt(2).Hold = true;
+            else if (dice.ElementAt(2).Hold == true)
+                dice.ElementAt(2).Hold = false;
+        }
+        private void chkDie4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dice.ElementAt(3).Hold == false)
+                dice.ElementAt(3).Hold = true;
+            else if (dice.ElementAt(3).Hold == true)
+                dice.ElementAt(3).Hold = false;
+        }
+        private void chkDie5_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dice.ElementAt(4).Hold == false)
+                dice.ElementAt(4).Hold = true;
+            else if (dice.ElementAt(4).Hold == true)
+                dice.ElementAt(4).Hold = false;
+        }
         /********************  TOOL TIP START **************************************/
         private void label8_MouseHover(object sender, EventArgs e)
         {
@@ -334,159 +167,138 @@ namespace Yahtzee
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtThrees_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtFours_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtFives_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtSixs_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtThreeOfKind_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtFourOfKind_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtFullHouse_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtSmallStraight_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtLargeStraight_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtChance_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         private void txtYahtzee_MouseHover(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             DoToolTip(textBox);
         }
-
         /********************  TOOL TIP END **************************************/
         /********************  TEXT BOX CLICK EVENT START **************************************/
         private void txtOnes_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtTwos_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtThrees_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtFours_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtFives_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtSixs_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtChance_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtThreeOfKind_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtFourOfKind_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtFullHouse_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
@@ -494,25 +306,23 @@ namespace Yahtzee
         }
         private void txtSmallStraight_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtLargeStraight_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
             }
         }
-
         private void txtYahtzee_MouseClick(object sender, MouseEventArgs e)
         {
-            if (canScore)
+            if (player.CanScore)
             {
                 TextBox textBox = (TextBox)sender;
                 DoTextBoxStuff(textBox);
@@ -524,7 +334,7 @@ namespace Yahtzee
         {
             int score;
             int tempScore;
-            score = CalcScore(textBox.Tag.ToString());
+            score = Game.CalcScore(textBox.Tag.ToString(), dice, yahtzeeCounter);
             totalScore += score;
             lblTotalScore.Text = totalScore.ToString();
             if (textBox.Tag.ToString() == "yahtzee")
@@ -574,16 +384,28 @@ namespace Yahtzee
             if (turns == 0)
             {   //game ends
                 MessageBox.Show("Congratulations! \nYou scored " + totalScore.ToString() + " points!");
-                if (totalScore > highScore)
+                if (totalScore > player.UserHighScore)
                 {
-                    highScore = totalScore;
-                    MessageBox.Show("Holy Mackeral! You got the high score!");
-                    lblTheHighScore.Text = highScore.ToString();
+                    player.UserHighScore = totalScore;
+                    MessageBox.Show("Holy Moly! You got a new high score!");
+                    lblYourHighScore.Text = player.UserHighScore.ToString();
+                    UpdateScores(player);
                 }
 
-                btnNext.Text = "Play";
+                if(player.UserHighScore > YahtzeeDA.getTheHighScore())
+                {
+                    MessageBox.Show("Holy Moly! You got a new high score!");
+                    lblTheHighScore.Text = player.UserHighScore.ToString();
+                }
+
+                btnNext.Text = "&Play";
             }
             btnNext.Focus();
+        }
+        private void UpdateScores(User player)
+        {
+            YahtzeeDA.UpdateUserScores(player);
+            lblYourHighScore.Text = player.UserHighScore.ToString();
         }
         private void ClearCheckBoxes()
         {
@@ -592,7 +414,7 @@ namespace Yahtzee
             chkDie3.Checked = false;
             chkDie4.Checked = false;
             chkDie5.Checked = false;
-            canScore = false;
+            player.CanScore = false;
             btnRollAgain.Enabled = false;
             btnNext.Enabled = true;
         }
@@ -603,11 +425,11 @@ namespace Yahtzee
             yahtzeeCounter = 0;
             turns = 13;
             yahtzeeTurn = 1;
-            canScore = false;
+            player.CanScore = false;
             lblTotalScore.Text = 0.ToString();
             lblTurns.Text = turns.ToString();
             ClearCheckBoxes();
-            canScore = false;
+            player.CanScore = false;
             txtOnes.Text = "";
             txtOnes.Enabled = true;
             txtTwos.Text = "";
@@ -635,13 +457,13 @@ namespace Yahtzee
             txtYahtzee.Text = "";
             txtYahtzee.Enabled = true;
             btnNext.Enabled = true;
-            btnNext.Text = "Play";
+            btnNext.Text = "&Play";
             btnRollAgain.Enabled = false;
         }
         private void DoToolTip(TextBox textBox)
         {
             int score;
-            score = CalcScore(textBox.Tag.ToString());
+            score = Game.CalcScore(textBox.Tag.ToString(), dice, yahtzeeCounter);
             toolTip1.SetToolTip(textBox, score.ToString());
         }
 
@@ -649,6 +471,7 @@ namespace Yahtzee
         {
             ResetBoard();
         }
+        /////////////// START PANEL ////////////////////
         private void rdoRegister_CheckedChanged(object sender, EventArgs e)
         {
             lblConfirm.Visible = true;
@@ -692,7 +515,7 @@ namespace Yahtzee
                             lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
                             passwordPass = false;
                         }
-                        else if (new Regex(@"^[a-zA-Z0-9]{2,50}$").IsMatch(password) == false)
+                        else if (new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{3,}$").IsMatch(password) == false)
                         {
                             lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
                             passwordPass = false;
@@ -713,6 +536,7 @@ namespace Yahtzee
 
                 if (usernamePass && passwordPass)
                 {   //user registers, User = user, add user to DB
+                    player = new User();
                     player.UserId = 1;
                     player.Username = username;
                     player.UserHighScore = 0;
@@ -741,7 +565,7 @@ namespace Yahtzee
                         lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
                         passwordPass = false;
                     }
-                    else if (new Regex(@"^[a-zA-Z0-9]{2,40}$").IsMatch(password) == false)
+                    else if (new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{3,}$").IsMatch(password) == false)
                     {
                         lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
                         passwordPass = false;
@@ -767,7 +591,9 @@ namespace Yahtzee
                 }
                 if (usernamePass && passwordPass)
                 {   //user registers, User = user, add user to DB
+                    player = new User();
                     player = YahtzeeDA.GetUser(username);
+                    
                     //GAME START
                     pnlRegistration.Hide();
                     
@@ -779,14 +605,11 @@ namespace Yahtzee
                 }
             }           
         }
+        /////////////// END PANEL /////////////////////////
+
         /////////////////////////////////////////////
         ///TO DO////////TO DO/////////////TO DO//////
-        ///set both buttons to disabled forcing the user to pick a box on 3rd roll.
-        ///add a log out button that resets the "good luck" and "your high score" label,
-        ///bring up the panel again, all reset though.
-        ///error proof the log in.
-        ///Seperate logic into Game class.
-        ///set dice button images to dice pics.
+        ///Find more errors
         ///...
         ///done?
 
