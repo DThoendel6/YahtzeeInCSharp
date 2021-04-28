@@ -331,7 +331,8 @@ namespace Yahtzee
         }
         /********************  TEXT BOX CLICK EVENT END **************************************/
         private void DoTextBoxStuff(TextBox textBox)
-        {
+        {   //When a textbox is clicked, the score is entered and the textbox is disabled.
+            //Unless the textbox is Yahtzee, then it is only disabled if you click it without a yahtzee.
             int score;
             int tempScore;
             score = Game.CalcScore(textBox.Tag.ToString(), dice, yahtzeeCounter);
@@ -389,7 +390,7 @@ namespace Yahtzee
                     player.UserHighScore = totalScore;
                     MessageBox.Show("Holy Moly! You got a new high score!");
                     lblYourHighScore.Text = player.UserHighScore.ToString();
-                    UpdateScores(player);
+                    Game.UpdateScores(player);
                 }
 
                 if(player.UserHighScore > YahtzeeDA.getTheHighScore())
@@ -401,11 +402,6 @@ namespace Yahtzee
                 btnNext.Text = "&Play";
             }
             btnNext.Focus();
-        }
-        private void UpdateScores(User player)
-        {
-            YahtzeeDA.UpdateUserScores(player);
-            lblYourHighScore.Text = player.UserHighScore.ToString();
         }
         private void ClearCheckBoxes()
         {

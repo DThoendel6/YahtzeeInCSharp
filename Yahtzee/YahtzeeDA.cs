@@ -195,8 +195,8 @@ namespace Yahtzee
                 conn.Close();
             }
             return;
-        }
-        public static int getTheHighScore()
+        }  
+        public static int getTheHighScore() 
         {
             int score = 0;
             SqlConnection conn = YahtzeeDBA.GetYahtzeeConnection();
