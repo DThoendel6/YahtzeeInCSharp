@@ -499,54 +499,61 @@ namespace Yahtzee
             string passwordConfirm;
             if (rdoRegister.Checked)
             {
-                if (YahtzeeDA.CheckUsernameAvailability(username))//if the name is available...
-                {
-                    usernamePass = true;
-                    passwordConfirm = txtPasswordConfirm.Text;
-                    //check password
-                    if(password == passwordConfirm)
-                    {   //if passwords match, check credentials
-                        if(password == "")
-                        {
-                            lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
+
+                    if (YahtzeeDA.CheckUsernameAvailability(username))//if the name is available...
+                    {
+                        usernamePass = true;
+                        passwordConfirm = txtPasswordConfirm.Text;
+                        //check password
+                        if (password == passwordConfirm)
+                        {   //if passwords match, check credentials
+                            if (password == "")
+                            {
+                                lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
+                                passwordPass = false;
+                            }
+                            else if (new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{3,}$").IsMatch(password) == false)
+                            {
+                                lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
+                                passwordPass = false;
+                            }
+                        }
+                        else
+                        {   //if passwords don't match
+                            lblPassConfirmWarning.Text = "Passwords do not match";
                             passwordPass = false;
                         }
-                        else if (new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{3,}$").IsMatch(password) == false)
-                        {
-                            lblPassWarning.Text = "Password must be 3-50 characters long,\nmust contain a lower and upper case letter,\n and must contain a number";
-                            passwordPass = false;
-                        }
+
+                    }
+                    else if (username == "")
+                    {
+                        lblUsernameWarning.Text = "Enter a username";
+                        usernamePass = false;
+                    }
+                    else//username is taken
+                    {
+                        lblUsernameWarning.Text = "Username taken. try again";
+                        usernamePass = false;
+                    }
+
+                    if (usernamePass && passwordPass)
+                    {   //user registers, User = user, add user to DB
+                        player = new User();
+                        player.UserId = 1;
+                        player.Username = username;
+                        player.UserHighScore = 0;
+                        player.UserNumberOfGamesPlayed = 0;
+                        YahtzeeDA.AddPlayer(player, password);
+                        //GAME START
+                        pnlRegistration.Hide();
                     }
                     else
-                    {   //if passwords don't match
-                        lblPassConfirmWarning.Text = "Passwords do not match";
-                        passwordPass = false;
+                    {
+                        txtPassword.Text = "";
+                        txtPasswordConfirm.Text = "";
+                        txtPassword.Focus();
                     }
-                    
-                }
-                else//username is taken
-                {
-                    lblUsernameWarning.Text = "Username taken. try again";
-                    usernamePass = false;
-                }
-
-                if (usernamePass && passwordPass)
-                {   //user registers, User = user, add user to DB
-                    player = new User();
-                    player.UserId = 1;
-                    player.Username = username;
-                    player.UserHighScore = 0;
-                    player.UserNumberOfGamesPlayed = 0;
-                    YahtzeeDA.AddPlayer(player, password);
-                    //GAME START
-                    pnlRegistration.Hide();
-                }
-                else
-                {
-                    txtPassword.Text = "";
-                    txtPasswordConfirm.Text = "";
-                    txtPassword.Focus();
-                }
+                
             }
             else if (rdoLogin.Checked)
             {
