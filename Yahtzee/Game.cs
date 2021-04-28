@@ -11,13 +11,13 @@ namespace Yahtzee
     {
         public List<Die> Dice = new List<Die>(5);
 
-        /*public Game() { }
+        public Game() { }
 
         public Game(List<Die> dice) 
         {
             Dice = dice;
         }
-        */
+        
         public static int CalcScore(string type, List<Die> dice, int yahtzeeCounter)
         {
             int score = 0;
