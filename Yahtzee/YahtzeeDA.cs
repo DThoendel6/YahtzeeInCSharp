@@ -10,14 +10,11 @@ namespace Yahtzee
 {
     class YahtzeeDA
     {
-
         public static User GetUser(string username)
         {
             User user = new User();
-
             // you need a connection object
             SqlConnection conn = YahtzeeDBA.GetYahtzeeConnection();
-
             // you need a sql statement
             string selectStatement = "Select * from Users where Username = @username";
 
