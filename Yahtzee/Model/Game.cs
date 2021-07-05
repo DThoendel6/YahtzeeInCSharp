@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+/*
+ * Author: Dominic Thoendel
+ * Program: Yahtzee
+*/
 namespace Yahtzee.Model
 {
     class Game
