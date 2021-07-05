@@ -753,9 +753,9 @@ namespace Yahtzee
             this.lblGoodLuck.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGoodLuck.Location = new System.Drawing.Point(225, 9);
             this.lblGoodLuck.Name = "lblGoodLuck";
-            this.lblGoodLuck.Size = new System.Drawing.Size(86, 18);
+            this.lblGoodLuck.Size = new System.Drawing.Size(164, 18);
             this.lblGoodLuck.TabIndex = 55;
-            this.lblGoodLuck.Text = "Good Luck ";
+            this.lblGoodLuck.Text = "Good Luck, Press Play!";
             // 
             // frmYahtzeeGame
             // 

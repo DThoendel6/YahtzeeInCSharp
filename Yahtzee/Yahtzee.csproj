@@ -63,20 +63,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Die.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="YahtzeeDA.cs" />
-    <Compile Include="YahtzeeDBA.cs" />
-    <Compile Include="YahtzeeGame.cs">
+    <Compile Include="Model\CalculateScore.cs" />
+    <Compile Include="Model\Die.cs" />
+    <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Model\YahtzeeDA.cs" />
+    <Compile Include="Model\YahtzeeDBA.cs" />
+    <Compile Include="View\YahtzeeGame.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="YahtzeeGame.Designer.cs">
+    <Compile Include="View\YahtzeeGame.Designer.cs">
       <DependentUpon>YahtzeeGame.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="YahtzeeGame.resx">
+    <EmbeddedResource Include="View\YahtzeeGame.resx">
       <DependentUpon>YahtzeeGame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -130,6 +131,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controller\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
