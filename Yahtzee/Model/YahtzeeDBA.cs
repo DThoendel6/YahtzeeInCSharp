@@ -4,6 +4,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+/*
+ * Author: Dominic Thoendel
+ * Program: Yahtzee
+*/
 namespace Yahtzee.Model
 {
     class YahtzeeDBA

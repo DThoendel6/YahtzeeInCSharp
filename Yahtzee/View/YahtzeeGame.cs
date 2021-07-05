@@ -10,7 +10,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Yahtzee.Model;
-
+/*
+ * Author: Dominic Thoendel
+ * Program: Yahtzee
+*/ 
 namespace Yahtzee
 {
     public partial class frmYahtzeeGame : Form
