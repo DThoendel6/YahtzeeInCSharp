@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Yahtzee.Model;
 
 namespace Yahtzee
 {
@@ -335,7 +336,7 @@ namespace Yahtzee
             //Unless the textbox is Yahtzee, then it is only disabled if you click it without a yahtzee.
             int score;
             int tempScore;
-            score = Game.CalcScore(textBox.Tag.ToString(), dice, yahtzeeCounter);
+            score = CalculateScore.CalcScore(textBox.Tag.ToString(), dice, yahtzeeCounter);
             totalScore += score;
             lblTotalScore.Text = totalScore.ToString();
             if (textBox.Tag.ToString() == "yahtzee")
@@ -459,7 +460,7 @@ namespace Yahtzee
         private void DoToolTip(TextBox textBox)
         {
             int score;
-            score = Game.CalcScore(textBox.Tag.ToString(), dice, yahtzeeCounter);
+            score = CalculateScore.CalcScore(textBox.Tag.ToString(), dice, yahtzeeCounter);
             toolTip1.SetToolTip(textBox, score.ToString());
         }
 
