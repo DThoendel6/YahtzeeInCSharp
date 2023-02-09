@@ -29,14 +29,10 @@ namespace Yahtzee.Model
         
         public void Roll()
         {
-            if (Hold)
+            if (!Hold)
             {
-                //does not roll a new number
-            }
-            else
-            {
+                //If not held, roll a new number
                 int newCount;
-                // Random rand = new Random();
                 newCount = frmYahtzeeGame.rand.Next(1, 7);
                 DotCount = newCount;
             }

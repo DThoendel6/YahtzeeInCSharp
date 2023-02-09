@@ -16,8 +16,10 @@ namespace Yahtzee.Model
         public static User GetUser(string username)
         {
             User user = new User();
+
             // you need a connection object
             SqlConnection conn = YahtzeeDBA.GetYahtzeeConnection();
+
             // you need a sql statement
             string selectStatement = "Select * from Users where Username = @username";
 
@@ -25,12 +27,12 @@ namespace Yahtzee.Model
             SqlCommand selectCommand = new SqlCommand(selectStatement, conn);
 
             selectCommand.Parameters.AddWithValue("@username", username);
-
+           
             try
             {
                 // open the connection
                 conn.Open();
-
+                
                 // execute the command
                 SqlDataReader reader = selectCommand.ExecuteReader();
 
@@ -172,7 +174,6 @@ namespace Yahtzee.Model
                 "VALUES( @Username, @UserPassword, @UserHighScore, @UserNumberOfGamesPlayed)"; 
 
             SqlCommand insertCommand = new SqlCommand(insertStatement, conn);
-            //insertCommand.Parameters.AddWithValue("@UserId", user.UserId);
             insertCommand.Parameters.AddWithValue("@Username", user.Username);
             insertCommand.Parameters.AddWithValue("@UserPassword", password);
             insertCommand.Parameters.AddWithValue("@UserHighScore", user.UserHighScore);

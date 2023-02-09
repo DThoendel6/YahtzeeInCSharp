@@ -508,6 +508,13 @@ namespace Yahtzee
             this.btnDie5.Text = "5";
             this.btnDie5.UseVisualStyleBackColor = true;
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutomaticDelay = 50;
+            this.toolTip1.AutoPopDelay = 5000;
+            this.toolTip1.InitialDelay = 5;
+            this.toolTip1.ReshowDelay = 10;
+            // 
             // label15
             // 
             this.label15.AutoSize = true;

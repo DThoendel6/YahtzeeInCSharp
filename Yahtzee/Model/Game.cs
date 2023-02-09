@@ -21,7 +21,6 @@ namespace Yahtzee.Model
             Dice = dice;
         }
         
-       
         public static void UpdateScores(User player)
         {
             YahtzeeDA.UpdateUserScores(player);
