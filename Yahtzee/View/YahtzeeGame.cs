@@ -355,13 +355,9 @@ namespace Yahtzee
                         turns -= yahtzeeTurn;
                         yahtzeeTurn -= yahtzeeTurn;
                         ClearCheckBoxes();
-
                     }
-                    else //the box will be disabled, but the turn will not end
-                    {
-
-                    }
-
+                    
+                    //the box will be disabled, but the turn will not end
                     textBox.Enabled = false;
                 }
                 else

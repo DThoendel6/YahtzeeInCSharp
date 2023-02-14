@@ -510,10 +510,7 @@ namespace Yahtzee
             // 
             // toolTip1
             // 
-            this.toolTip1.AutomaticDelay = 50;
-            this.toolTip1.AutoPopDelay = 5000;
-            this.toolTip1.InitialDelay = 5;
-            this.toolTip1.ReshowDelay = 10;
+            this.toolTip1.AutomaticDelay = 200;
             // 
             // label15
             // 
