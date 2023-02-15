@@ -15,7 +15,6 @@ namespace Yahtzee.Model
         {
             int score = 0;
             int[] numbers = new int[5];//number array used to store the values of each die
-            int fullHouseMatch3;
             int i = 0;
             foreach (Die d in dice)
             {
@@ -132,175 +131,34 @@ namespace Yahtzee.Model
                 }
                 return score;
             }
-                /*
-                for (int n = 0; n < 5; n++)
-                {
-                    searchCriteria = numbers[n];
-                    try
-                    {
-                        if (numbers[n + 1] == searchCriteria)//if(numbers[1] == numbers[0]
-                        {   //if the first 2 numbers in the sorted array are equal, it will check the 3rd number
-                            //if 3 numbers are equal to each other, that fits the criteria for the rest
-                            //of the score boxes until 4-of-a-kind or yahtzee.
-
-                            if (numbers[n + 2] == searchCriteria)//if(numbers[2] == numbers[0]
-                            {   //if you've made it this far, you found your 3-of-a-kind!
-                                if (type == "threeOfAKind")
-                                {
-                                    foreach (Die d in dice)
-                                    {
-                                        score += d.DotCount;
-                                    }
-                                    return score;
-                                }
-                                if (type == "fullHouse")
-                                {
-                                    fullHouseMatch3 = searchCriteria;//example if there are 3 4's, will search 
-                                    for (int b = 0; b < 5; b++)      //through the array again for 2 of the same number that is not 4.
-                                    {
-                                        if (numbers[b] != fullHouseMatch3)
-                                        {
-                                            if (numbers[b + 1] == numbers[b])
-                                            {   //Full House!
-                                                return 25;
-                                            }
-                                        }
-                                    }
-
-                                }
-                                if (numbers[n + 3] == searchCriteria)//if(numbers[4] == numbers[0]
-                                {   //4-of-a-kind
-                                    if (type == "fourOfAKind")
-                                    {
-                                        foreach (Die d in dice)
-                                        {
-                                            score += d.DotCount;
-                                        }
-                                        return score;
-                                    }
-                                    if (numbers[n + 4] == searchCriteria)
-                                    {   //YAHTZEE!
-                                        if (type == "yahtzee")
-                                        {
-                                            if (yahtzeeCounter > 0)
-                                            {
-                                                score = 100;
-                                            }
-                                            else if (yahtzeeCounter == 0)
-                                            {
-                                                score = 50;
-                                            }
-                                        }
-                                        return score;
-                                    }
-                                }
-                            }
-                        }//Begin search for straights
-                        else if (numbers[n + 1] == searchCriteria + 1)//works 11234. 
-                        {
-                            if (numbers[n + 2] == searchCriteria + 2)//breaks 12234
-                            {
-                                if (numbers[n + 3] == searchCriteria + 3)//doesn't work for 12334.
-                                {   //small straight
-                                    if (type == "smallStraight")
-                                    {
-                                        return 30;
-                                    }
-
-                                    if (numbers[n + 4] == searchCriteria + 4)
-                                    {   //large straight
-                                        if (type == "largeStraight")
-                                        {
-                                            return 40;
-                                        }
-                                    }
-                                }
-                                else if (numbers[n + 3] == searchCriteria + 2)//passes 12334
-                                {
-                                    if (numbers[n + 4] == searchCriteria + 3)
-                                    {
-                                        if (type == "smallStraight")
-                                        {
-                                            return 30;
-                                        }
-                                    }
-                                }
-                            }
-                            else if (numbers[n + 3] == searchCriteria + 2)//passes 12234
-                            {
-                                if (numbers[n + 4] == searchCriteria + 3)//12234
-                                {
-                                    if (type == "smallStraight")
-                                    {
-                                        return 30;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (IndexOutOfRangeException e)
-                    {
-
-                    }
-                }*/
-
-                return score;
+            return score;
         }
 
         private static bool CheckStraight(int[] numbers, string size)
         {
-            try
-            {
-                for (int n = 0; n < numbers.Length; n++)
-                {
-                    int searchCriteria = numbers[n];
-                    if (numbers[n + 1] == searchCriteria + 1)//works 11234. 
-                    {
-                        if (numbers[n + 2] == searchCriteria + 2)//breaks 12234
-                        {
-                            if (numbers[n + 3] == searchCriteria + 3)//doesn't work for 12334.
-                            {   //small straight
-                                if (type == "smallStraight")
-                                {
-                                    return 30;
-                                }
+            int[] dist = numbers.Distinct().ToArray();
 
-                                if (numbers[n + 4] == searchCriteria + 4)
-                                {   //large straight
-                                    if (type == "largeStraight")
-                                    {
-                                        return 40;
-                                    }
-                                }
-                            }
-                            else if (numbers[n + 3] == searchCriteria + 2)//passes 12334
-                            {
-                                if (numbers[n + 4] == searchCriteria + 3)
-                                {
-                                    if (type == "smallStraight")
-                                    {
-                                        return 30;
-                                    }
-                                }
-                            }
-                        }
-                        else if (numbers[n + 3] == searchCriteria + 2)//passes 12234
-                        {
-                            if (numbers[n + 4] == searchCriteria + 3)//12234
-                            {
-                                if (type == "smallStraight")
-                                {
-                                    return 30;
-                                }
-                            }
-                        }
-                    }
-                }
-            }catch (IndexOutOfRangeException e)
+            if (dist.Length < 4)
             {
-
+                return false;
             }
-            throw new NotImplementedException();
+            if (size == "large")
+            {
+                if (numbers[0] == (numbers[1] - 1) && numbers[1] == (numbers[2] - 1) && numbers[2] == (numbers[3] - 1) && numbers[3] == (numbers[4] - 1))
+                {
+                    return true;
+                }
+                return false;
+            }
+            if (size == "small")
+            {
+                if(dist[0] == (dist[1] - 1) && dist[1] == (dist[2] - 1) && dist[2] == (dist[3] - 1))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
 
         private static bool CheckFull(int[] numbers)
@@ -321,7 +179,7 @@ namespace Yahtzee.Model
         {
             try
             {
-                for (int i = 0; i < 5; i++)      //through the array again for 2 of the same number that is not the repeated number.
+                for (int i = 0; i < 5; i++)//look through the array again for 2 of the same number that is not the repeated number.
                 {
                     if (numbers[i] != repeatedNumber)
                     {
@@ -359,7 +217,6 @@ namespace Yahtzee.Model
 
         private static bool CheckFours(int[] numbers)
         {
-            //return true if a number repeats 4 times
             return CheckRepeatingCharacter(numbers, 4);
         }
 
